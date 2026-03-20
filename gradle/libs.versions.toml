@@ -7,7 +7,8 @@ kover = "0.9.1"
 sonarqube = "7.0.0.6105"
 khorum-plugins = "1.0.3"
 khorum-publishing = "1.0.5"
-meta-dsl = "1.0.1"
+konstellation-dsl = "1.0.2"
+konstellation-meta-dsl = "1.0.1"
 kotlinpoet = "2.1.0"
 google-auto-service = "1.1.1"
 kotlin-logging = "4.0.0-beta-2"
@@ -20,7 +21,6 @@ coroutines-core = "1.10.0"
 [libraries]
 # Kotlin
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
-kotlin-test-junit5 = { module = "org.jetbrains.kotlin:kotlin-test-junit5" }
 
 # KSP
 ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
@@ -30,7 +30,8 @@ kotlinpoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinpoet" }
 kotlinpoet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlinpoet" }
 
 # Meta DSL
-konstellation-meta-dsl = { module = "org.khorum.oss.konstellation:konstellation-meta-dsl", version.ref = "meta-dsl" }
+konstellation-dsl = { module = "org.khorum.oss.konstellation:dsl", version.ref = "konstellation-dsl" }
+konstellation-meta-dsl = { module = "org.khorum.oss.konstellation:konstellation-meta-dsl", version.ref = "konstellation-meta-dsl" }
 
 # Google
 google-auto-service = { module = "com.google.auto.service:auto-service", version.ref = "google-auto-service" }

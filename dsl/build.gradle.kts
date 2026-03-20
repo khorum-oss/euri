@@ -7,8 +7,7 @@ val metaDslVersion: String by rootProject.extra
 
 plugins {
     id("io.gitlab.arturbosch.detekt")
-    `java-library`
-    `maven-publish`
+    id("com.google.devtools.ksp")
     signing
 
     id("org.khorum.oss.plugins.open.secrets")
@@ -16,11 +15,12 @@ plugins {
     id("org.khorum.oss.plugins.open.publishing.digital-ocean-spaces")
 }
 
-group = "org.khorum.oss.REPLACE_ME"
+group = "org.khorum.oss.euri"
 version = dslVersion
 
 dependencies {
     implementation(rootProject.libs.konstellation.meta.dsl)
+    implementation(rootProject.libs.konstellation.dsl)
     implementation(kotlin("stdlib"))
     implementation(rootProject.libs.kotlin.reflect)
     implementation(rootProject.libs.kotlinpoet)
@@ -40,7 +40,7 @@ kover {
     reports {
         filters {
             excludes {
-                annotatedBy("org.khorum.oss.REPLACE_ME_PACKAGE.dsl.common.ExcludeFromCoverage")
+                annotatedBy("org.khorum.oss.euri.dsl.common.ExcludeFromCoverage")
             }
         }
     }
@@ -74,7 +74,7 @@ digitalOceanSpacesPublishing {
     accessKey = project.getPropertyOrEnv("spaces.key", "DO_SPACES_API_KEY")
     secretKey = project.getPropertyOrEnv("spaces.secret", "DO_SPACES_SECRET")
     publishedVersion = version.toString()
-    signingRequired = true
+    signingRequired = false
 }
 
 signing {
@@ -129,6 +129,12 @@ mavenGeneratedArtifacts {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
     }
+}
+
+ksp {
+    arg("projectRootClasspath", "org.khorum.oss.euri")
+    arg("dslBuilderClasspath", "org.khorum.oss.euri.common")
+    arg("dslMarkerClass", "org.khorum.oss.euri.common.EuriDsl")
 }
