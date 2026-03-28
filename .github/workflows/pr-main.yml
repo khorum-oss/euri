@@ -13,19 +13,19 @@ concurrency:
 
 jobs:
   build-check:
-    uses: violabs/public-cicd/.github/workflows/gradle-build.yml@main
+    uses: khorum-oss/public-cicd/.github/workflows/gradle-build.yml@main
     with:
       java-version: '21'
 
   detekt-check:
     needs: build-check
-    uses: violabs/public-cicd/.github/workflows/gradle-detekt.yml@main
+    uses: khorum-oss/public-cicd/.github/workflows/gradle-detekt.yml@main
     with:
       java-version: '21'
 
   unit-tests:
     needs: build-check
-    uses: violabs/public-cicd/.github/workflows/gradle-unit-tests.yml@main
+    uses: khorum-oss/public-cicd/.github/workflows/gradle-unit-tests.yml@main
     permissions:
       contents: read
       pull-requests: write
@@ -76,7 +76,7 @@ jobs:
       - detekt-check
       - coverage-and-sonar
     if: always()
-    uses: violabs/public-cicd/.github/workflows/notify-discord.yml@main
+    uses: khorum-oss/public-cicd/.github/workflows/notify-discord.yml@main
     with:
       runs-on: ubuntu-latest
       workflow_name: ${{ github.workflow }}

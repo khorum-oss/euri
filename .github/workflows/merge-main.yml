@@ -42,7 +42,7 @@ jobs:
         run: echo "version=$(cat VERSION)" >> "$GITHUB_OUTPUT"
 
       - name: Setup Java & Gradle
-        uses: violabs/public-cicd/.github/actions/setup-java-gradle@main
+        uses: khorum-oss/public-cicd/.github/actions/setup-java-gradle@main
         with:
           java-version: '21'
 
@@ -67,7 +67,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Java & Gradle
-        uses: violabs/public-cicd/.github/actions/setup-java-gradle@main
+        uses: khorum-oss/public-cicd/.github/actions/setup-java-gradle@main
         with:
           java-version: '21'
 
@@ -120,7 +120,7 @@ jobs:
     name: Notify Discord
     needs: [ version, publish, release, coverage-and-sonar ]
     if: always()
-    uses: violabs/public-cicd/.github/workflows/notify-discord.yml@main
+    uses: khorum-oss/public-cicd/.github/workflows/notify-discord.yml@main
     with:
       runs-on: ubuntu-latest
       workflow_name: ${{ github.workflow }}

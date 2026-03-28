@@ -1,22 +1,23 @@
 [versions]
-kotlin = "2.1.20"
-ksp = "2.1.20-1.0.32"
-dokka = "1.9.20"
+coroutines-core = "1.10.0"
 detekt = "1.23.6"
-kover = "0.9.1"
-sonarqube = "7.0.0.6105"
+dokka = "1.9.20"
+google-auto-service = "1.1.1"
+junit-jupiter = "6.0.0-M1"
+junit-jupiter-core-test = "5.13.0-M2"
 khorum-plugins = "1.0.3"
 khorum-publishing = "1.0.5"
 konstellation-dsl = "1.0.2"
 konstellation-meta-dsl = "1.0.1"
+kotlin = "2.1.20"
 kotlinpoet = "2.1.0"
-google-auto-service = "1.1.1"
 kotlin-logging = "4.0.0-beta-2"
-junit-jupiter = "6.0.0-M1"
-junit-jupiter-core-test = "5.13.0-M2"
+kover = "0.9.1"
+ksp = "2.1.20-1.0.32"
 mockk = "1.13.17"
+playwright = "1.58.0"
 serialization-json = "1.8.1"
-coroutines-core = "1.10.0"
+sonarqube = "7.0.0.6105"
 
 [libraries]
 # Kotlin
@@ -48,6 +49,9 @@ mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 # Serialization
 serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization-json" }
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines-core" }
+
+# Playwright
+playwright = { module = "com.microsoft.playwright:playwright", version.ref = "playwright" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

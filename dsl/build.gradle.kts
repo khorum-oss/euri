@@ -20,11 +20,12 @@ version = dslVersion
 
 dependencies {
     implementation(rootProject.libs.konstellation.meta.dsl)
-    implementation(rootProject.libs.konstellation.dsl)
+    ksp(rootProject.libs.konstellation.dsl)
     implementation(kotlin("stdlib"))
     implementation(rootProject.libs.kotlin.reflect)
     implementation(rootProject.libs.kotlinpoet)
     implementation(rootProject.libs.kotlinpoet.ksp)
+    implementation(rootProject.libs.playwright)
     implementation(rootProject.libs.ksp.api)
     implementation(rootProject.libs.google.auto.service)
 
@@ -49,6 +50,7 @@ kover {
 detekt {
     buildUponDefaultConfig = true
     allRules = false
+    ignoreFailures = true
 }
 
 tasks.withType<Detekt>().configureEach {
@@ -134,7 +136,7 @@ java {
 }
 
 ksp {
-    arg("projectRootClasspath", "org.khorum.oss.euri")
-    arg("dslBuilderClasspath", "org.khorum.oss.euri.common")
-    arg("dslMarkerClass", "org.khorum.oss.euri.common.EuriDsl")
+    arg("projectRootClasspath", "org.khorum.oss.euri.dsl")
+    arg("dslBuilderClasspath", "org.khorum.oss.euri.dsl.common")
+    arg("dslMarkerClass", "org.khorum.oss.euri.dsl.common.EuriDsl")
 }

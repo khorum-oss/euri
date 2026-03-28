@@ -20,6 +20,7 @@
          <trust group="org.sonatype.oss"/>
          <trust group="^com[.]fasterxml($|([.].*))" regex="true"/>
          <trust group="^com[.]google($|([.].*))" regex="true"/>
+         <trust group="^com[.]microsoft[.]playwright($|([.].*))" regex="true"/>
          <trust group="^com[.]soywiz($|([.].*))" regex="true"/>
          <trust group="^com[.]squareup($|([.].*))" regex="true"/>
          <trust group="^io[.]gitlab[.]arturbosch[.]detekt($|([.].*))" regex="true"/>
