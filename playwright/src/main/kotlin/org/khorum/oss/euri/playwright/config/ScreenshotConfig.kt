@@ -1,17 +1,18 @@
 package org.khorum.oss.euri.playwright.config
 
-import org.khorum.oss.konstellation.metaDsl.annotation.DefaultValue
+import org.khorum.oss.konstellation.metaDsl.annotation.DefaultState
 import org.khorum.oss.konstellation.metaDsl.annotation.GeneratedDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.ListDsl
 
 @GeneratedDsl
+@DefaultState
 data class ScreenshotConfig(
-    @DefaultValue("\"\"") val path: String,
-    @DefaultValue("\"PNG\"") val type: String,
-    @DefaultValue("-1") val quality: Int,
-    @DefaultValue("false") val fullPage: Boolean,
-    val clip: ClipConfig?,
-    @DefaultValue("false") val omitBackground: Boolean,
-    @DefaultValue("\"\"") val style: String,
-    @ListDsl val maskSelectors: List<String>,
+    val path: String = "",
+    val type: String = "PNG",
+    val quality: Int = -1,
+    val fullPage: Boolean = false,
+    val clip: ClipConfig? = null,
+    val omitBackground: Boolean = false,
+    val style: String = "",
+    @ListDsl val maskSelectors: List<String> = emptyList(),
 )

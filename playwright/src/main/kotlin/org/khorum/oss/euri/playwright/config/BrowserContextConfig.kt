@@ -1,35 +1,36 @@
 package org.khorum.oss.euri.playwright.config
 
-import org.khorum.oss.konstellation.metaDsl.annotation.DefaultValue
+import org.khorum.oss.konstellation.metaDsl.annotation.DefaultState
 import org.khorum.oss.konstellation.metaDsl.annotation.GeneratedDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.ListDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.MapDsl
 
 @GeneratedDsl
+@DefaultState
 data class BrowserContextConfig(
-    @DefaultValue("true") val acceptDownloads: Boolean,
-    @DefaultValue("\"\"") val baseURL: String,
-    @DefaultValue("false") val bypassCSP: Boolean,
-    @DefaultValue("\"NO_PREFERENCE\"") val colorScheme: String,
-    @DefaultValue("1.0") val deviceScaleFactor: Double,
-    @MapDsl val extraHTTPHeaders: Map<String, String>,
-    @DefaultValue("false") val hasTouch: Boolean,
-    val geolocation: GeolocationConfig?,
-    val httpCredentials: HttpCredentialsConfig?,
-    @DefaultValue("false") val ignoreHTTPSErrors: Boolean,
-    @DefaultValue("false") val isMobile: Boolean,
-    @DefaultValue("true") val javaScriptEnabled: Boolean,
-    @DefaultValue("\"\"") val locale: String,
-    @DefaultValue("false") val offline: Boolean,
-    @ListDsl val permissions: List<String>,
-    val proxy: ProxyConfig?,
-    @DefaultValue("\"\"") val recordHarPath: String,
-    @DefaultValue("\"\"") val recordVideoDir: String,
-    val recordVideoSize: VideoSizeConfig?,
-    val screenSize: ScreenSizeConfig?,
-    @DefaultValue("\"\"") val storageStatePath: String,
-    @DefaultValue("false") val strictSelectors: Boolean,
-    @DefaultValue("\"\"") val timezoneId: String,
-    @DefaultValue("\"\"") val userAgent: String,
-    val viewport: ViewportConfig?,
+    val acceptDownloads: Boolean = true,
+    val baseURL: String = "",
+    val bypassCSP: Boolean = false,
+    val colorScheme: String = "NO_PREFERENCE",
+    val deviceScaleFactor: Double = 1.0,
+    @MapDsl val extraHTTPHeaders: Map<String, String> = emptyMap(),
+    val hasTouch: Boolean = false,
+    val geolocation: GeolocationConfig? = null,
+    val httpCredentials: HttpCredentialsConfig? = null,
+    val ignoreHTTPSErrors: Boolean = false,
+    val isMobile: Boolean = false,
+    val javaScriptEnabled: Boolean = true,
+    val locale: String = "",
+    val offline: Boolean = false,
+    @ListDsl val permissions: List<String> = emptyList(),
+    val proxy: ProxyConfig? = null,
+    val recordHarPath: String = "",
+    val recordVideoDir: String = "",
+    val recordVideoSize: VideoSizeConfig? = null,
+    val screenSize: ScreenSizeConfig? = null,
+    val storageStatePath: String = "",
+    val strictSelectors: Boolean = false,
+    val timezoneId: String = "",
+    val userAgent: String = "",
+    val viewport: ViewportConfig? = null,
 )
