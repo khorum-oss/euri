@@ -1,9 +1,9 @@
 package org.khorum.oss.euri.playwright.config
 
-import org.khorum.oss.konstellation.metaDsl.DefaultValue
-import org.khorum.oss.konstellation.metaDsl.GeneratedDsl
-import org.khorum.oss.konstellation.metaDsl.ListDsl
-import org.khorum.oss.konstellation.metaDsl.MapDsl
+import org.khorum.oss.konstellation.metaDsl.annotation.DefaultValue
+import org.khorum.oss.konstellation.metaDsl.annotation.GeneratedDsl
+import org.khorum.oss.konstellation.metaDsl.annotation.ListDsl
+import org.khorum.oss.konstellation.metaDsl.annotation.MapDsl
 
 @GeneratedDsl
 data class BrowserLaunchConfig(

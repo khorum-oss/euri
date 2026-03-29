@@ -1,7 +1,6 @@
 package org.khorum.oss.euri.playwright.runtime
 
 import com.microsoft.playwright.Frame
-import com.microsoft.playwright.Locator
 import com.microsoft.playwright.options.AriaRole
 import org.khorum.oss.euri.dsl.common.EuriDsl
 
@@ -11,8 +10,8 @@ class FrameScope(private val frame: Frame) {
     fun locator(selector: String): LocatorScope =
         LocatorScope(frame.locator(selector))
 
-    fun getByRole(role: AriaRole, block: (Locator.GetByRoleOptions.() -> Unit)? = null): LocatorScope {
-        val options = Locator.GetByRoleOptions()
+    fun getByRole(role: AriaRole, block: (Frame.GetByRoleOptions.() -> Unit)? = null): LocatorScope {
+        val options = Frame.GetByRoleOptions()
         block?.invoke(options)
         return LocatorScope(frame.getByRole(role, options))
     }
