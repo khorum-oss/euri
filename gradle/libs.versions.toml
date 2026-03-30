@@ -7,8 +7,8 @@ kover = "0.9.1"
 sonarqube = "7.0.0.6105"
 khorum-plugins = "1.0.3"
 khorum-publishing = "1.0.5"
-konstellation-dsl = "1.0.2"
-konstellation-meta-dsl = "1.0.1"
+konstellation-dsl = "2.0.6"
+konstellation-meta-dsl = "1.0.8"
 kotlinpoet = "2.1.0"
 google-auto-service = "1.1.1"
 kotlin-logging = "4.0.0-beta-2"
@@ -17,6 +17,7 @@ junit-jupiter-core-test = "5.13.0-M2"
 mockk = "1.13.17"
 serialization-json = "1.8.1"
 coroutines-core = "1.10.0"
+playwright = "1.50.0"
 
 [libraries]
 # Kotlin
@@ -30,7 +31,7 @@ kotlinpoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinpoet" }
 kotlinpoet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlinpoet" }
 
 # Meta DSL
-konstellation-dsl = { module = "org.khorum.oss.konstellation:dsl", version.ref = "konstellation-dsl" }
+konstellation-dsl = { module = "org.khorum.oss.konstellation:konstellation-dsl", version.ref = "konstellation-dsl" }
 konstellation-meta-dsl = { module = "org.khorum.oss.konstellation:konstellation-meta-dsl", version.ref = "konstellation-meta-dsl" }
 
 # Google
@@ -48,6 +49,7 @@ mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 # Serialization
 serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization-json" }
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines-core" }
+playwright = { module = "com.microsoft.playwright:playwright", version.ref = "playwright" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
