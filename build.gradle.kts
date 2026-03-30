@@ -60,7 +60,6 @@ fun Project.sharedRepositories() {
     repositories {
         mavenLocal()
         mavenCentral()
-        google()
         maven { url = uri("https://www.jetbrains.com/intellij-repository/releases") }
         maven { url = uri("https://open-reliquary.nyc3.cdn.digitaloceanspaces.com") }
     }

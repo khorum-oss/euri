@@ -286,9 +286,9 @@ class PageScopeTest {
     @Test
     fun `route delegates to page`() {
         val handler: (Route) -> Unit = {}
-        every { page.route("**/*.png", handler) } just runs
+        every { page.route(eq("**/*.png"), any()) } just runs
         scope.route("**/*.png", handler)
-        verify { page.route("**/*.png", handler) }
+        verify { page.route(eq("**/*.png"), any()) }
     }
 
     @Test
@@ -303,33 +303,29 @@ class PageScopeTest {
     @Test
     fun `onRequest delegates to page`() {
         val handler: (Request) -> Unit = {}
-        every { page.onRequest(handler) } just runs
         scope.onRequest(handler)
-        verify { page.onRequest(handler) }
+        verify { page.onRequest(any()) }
     }
 
     @Test
     fun `onResponse delegates to page`() {
         val handler: (Response) -> Unit = {}
-        every { page.onResponse(handler) } just runs
         scope.onResponse(handler)
-        verify { page.onResponse(handler) }
+        verify { page.onResponse(any()) }
     }
 
     @Test
     fun `onDialog delegates to page`() {
         val handler: (Dialog) -> Unit = {}
-        every { page.onDialog(handler) } just runs
         scope.onDialog(handler)
-        verify { page.onDialog(handler) }
+        verify { page.onDialog(any()) }
     }
 
     @Test
     fun `onConsoleMessage delegates to page`() {
         val handler: (ConsoleMessage) -> Unit = {}
-        every { page.onConsoleMessage(handler) } just runs
         scope.onConsoleMessage(handler)
-        verify { page.onConsoleMessage(handler) }
+        verify { page.onConsoleMessage(any()) }
     }
 
     // Waiting

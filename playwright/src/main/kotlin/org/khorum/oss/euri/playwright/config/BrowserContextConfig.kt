@@ -1,12 +1,10 @@
 package org.khorum.oss.euri.playwright.config
 
-import org.khorum.oss.konstellation.metaDsl.annotation.DefaultState
 import org.khorum.oss.konstellation.metaDsl.annotation.GeneratedDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.ListDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.MapDsl
 
 @GeneratedDsl
-@DefaultState
 data class BrowserContextConfig(
     val acceptDownloads: Boolean = true,
     val baseURL: String = "",

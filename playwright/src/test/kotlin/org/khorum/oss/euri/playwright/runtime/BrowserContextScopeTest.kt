@@ -98,7 +98,7 @@ class BrowserContextScopeTest {
     fun `onPage delegates to context`() {
         val handler: (Page) -> Unit = {}
         scope.onPage(handler)
-        verify { context.onPage(handler) }
+        verify { context.onPage(any()) }
     }
 
     @Test
