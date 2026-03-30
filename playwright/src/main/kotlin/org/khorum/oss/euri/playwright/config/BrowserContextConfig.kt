@@ -1,37 +1,38 @@
 package org.khorum.oss.euri.playwright.config
 
-import org.khorum.oss.konstellation.metaDsl.annotation.DefaultState
-import org.khorum.oss.konstellation.metaDsl.annotation.DefaultStateType
-import org.khorum.oss.konstellation.metaDsl.annotation.DefaultValue
 import org.khorum.oss.konstellation.metaDsl.annotation.GeneratedDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.ListDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.MapDsl
+import org.khorum.oss.konstellation.metaDsl.annotation.defaults.DefaultValue
+import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultEmptyString
+import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultFalse
+import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultTrue
 
 @GeneratedDsl
 data class BrowserContextConfig(
-    @DefaultState(type = DefaultStateType.TRUE) val acceptDownloads: Boolean = true,
-    @DefaultState(type = DefaultStateType.EMPTY_STRING) val baseURL: String = "",
-    @DefaultState(type = DefaultStateType.FALSE) val bypassCSP: Boolean = false,
+    @DefaultTrue val acceptDownloads: Boolean = true,
+    @DefaultEmptyString val baseURL: String = "",
+    @DefaultFalse val bypassCSP: Boolean = false,
     @DefaultValue("NO_PREFERENCE") val colorScheme: String = "NO_PREFERENCE",
     @DefaultValue("1.0") val deviceScaleFactor: Double = 1.0,
     @MapDsl val extraHTTPHeaders: Map<String, String> = emptyMap(),
-    @DefaultState(type = DefaultStateType.FALSE) val hasTouch: Boolean = false,
+    @DefaultFalse val hasTouch: Boolean = false,
     val geolocation: GeolocationConfig? = null,
     val httpCredentials: HttpCredentialsConfig? = null,
-    @DefaultState(type = DefaultStateType.FALSE) val ignoreHTTPSErrors: Boolean = false,
-    @DefaultState(type = DefaultStateType.FALSE) val isMobile: Boolean = false,
-    @DefaultState(type = DefaultStateType.TRUE) val javaScriptEnabled: Boolean = true,
-    @DefaultState(type = DefaultStateType.EMPTY_STRING) val locale: String = "",
-    @DefaultState(type = DefaultStateType.FALSE) val offline: Boolean = false,
+    @DefaultFalse val ignoreHTTPSErrors: Boolean = false,
+    @DefaultFalse val isMobile: Boolean = false,
+    @DefaultTrue val javaScriptEnabled: Boolean = true,
+    @DefaultEmptyString val locale: String = "",
+    @DefaultFalse val offline: Boolean = false,
     @ListDsl val permissions: List<String> = emptyList(),
     val proxy: ProxyConfig? = null,
-    @DefaultState(type = DefaultStateType.EMPTY_STRING) val recordHarPath: String = "",
-    @DefaultState(type = DefaultStateType.EMPTY_STRING) val recordVideoDir: String = "",
+    @DefaultEmptyString val recordHarPath: String = "",
+    @DefaultEmptyString val recordVideoDir: String = "",
     val recordVideoSize: VideoSizeConfig? = null,
     val screenSize: ScreenSizeConfig? = null,
-    @DefaultState(type = DefaultStateType.EMPTY_STRING) val storageStatePath: String = "",
-    @DefaultState(type = DefaultStateType.FALSE) val strictSelectors: Boolean = false,
-    @DefaultState(type = DefaultStateType.EMPTY_STRING) val timezoneId: String = "",
-    @DefaultState(type = DefaultStateType.EMPTY_STRING) val userAgent: String = "",
+    @DefaultEmptyString val storageStatePath: String = "",
+    @DefaultFalse val strictSelectors: Boolean = false,
+    @DefaultEmptyString val timezoneId: String = "",
+    @DefaultEmptyString val userAgent: String = "",
     val viewport: ViewportConfig? = null,
 )
