@@ -43,6 +43,11 @@ kover {
                 annotatedBy("org.khorum.oss.euri.dsl.common.ExcludeFromCoverage")
             }
         }
+        verify {
+            rule("dsl coverage") {
+                minBound(80)
+            }
+        }
     }
 }
 

@@ -26,6 +26,21 @@ tasks.jar {
     archiveBaseName.set("playwright")
 }
 
+kover {
+    reports {
+        filters {
+            excludes {
+                annotatedBy("org.khorum.oss.euri.dsl.common.ExcludeFromCoverage")
+            }
+        }
+        verify {
+            rule("playwright coverage") {
+                minBound(80)
+            }
+        }
+    }
+}
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)

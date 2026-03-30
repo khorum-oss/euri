@@ -67,9 +67,10 @@ fun Project.sharedRepositories() {
 
 tasks.register("koverMergedReport") {
     group = "verification"
-    description = "Generates coverage report for the dsl module"
+    description = "Generates merged coverage report for all modules"
 
     dependsOn(project(":dsl").tasks.named("koverXmlReport"))
+    dependsOn(project(":playwright").tasks.named("koverXmlReport"))
 }
 
 tasks.register("initProject") {
@@ -130,7 +131,10 @@ sonar {
         property("sonar.host.url", "https://sonarcloud.io")
         property(
             "sonar.coverage.jacoco.xmlReportPaths",
-            "${project(":dsl").layout.buildDirectory.get()}/reports/kover/report.xml"
+            listOf(
+                "${project(":dsl").layout.buildDirectory.get()}/reports/kover/report.xml",
+                "${project(":playwright").layout.buildDirectory.get()}/reports/kover/report.xml"
+            ).joinToString(",")
         )
     }
 }
