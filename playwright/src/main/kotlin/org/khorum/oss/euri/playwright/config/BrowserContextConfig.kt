@@ -4,6 +4,8 @@ import org.khorum.oss.konstellation.metaDsl.annotation.GeneratedDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.ListDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.MapDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.DefaultValue
+import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultEmptyList
+import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultEmptyMap
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultEmptyString
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultFalse
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultTrue
@@ -15,7 +17,7 @@ data class BrowserContextConfig(
     @DefaultFalse val bypassCSP: Boolean = false,
     @DefaultValue("NO_PREFERENCE") val colorScheme: String = "NO_PREFERENCE",
     @DefaultValue("1.0") val deviceScaleFactor: Double = 1.0,
-    @MapDsl val extraHTTPHeaders: Map<String, String> = emptyMap(),
+    @DefaultEmptyMap @MapDsl val extraHTTPHeaders: Map<String, String> = emptyMap(),
     @DefaultFalse val hasTouch: Boolean = false,
     val geolocation: GeolocationConfig? = null,
     val httpCredentials: HttpCredentialsConfig? = null,
@@ -24,7 +26,7 @@ data class BrowserContextConfig(
     @DefaultTrue val javaScriptEnabled: Boolean = true,
     @DefaultEmptyString val locale: String = "",
     @DefaultFalse val offline: Boolean = false,
-    @ListDsl val permissions: List<String> = emptyList(),
+    @DefaultEmptyList @ListDsl val permissions: List<String> = emptyList(),
     val proxy: ProxyConfig? = null,
     @DefaultEmptyString val recordHarPath: String = "",
     @DefaultEmptyString val recordVideoDir: String = "",

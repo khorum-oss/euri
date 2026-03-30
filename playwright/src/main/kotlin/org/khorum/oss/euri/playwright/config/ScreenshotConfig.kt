@@ -3,6 +3,7 @@ package org.khorum.oss.euri.playwright.config
 import org.khorum.oss.konstellation.metaDsl.annotation.GeneratedDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.ListDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.DefaultValue
+import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultEmptyList
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultEmptyString
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultFalse
 
@@ -15,5 +16,5 @@ data class ScreenshotConfig(
     val clip: ClipConfig? = null,
     @DefaultFalse val omitBackground: Boolean = false,
     @DefaultEmptyString val style: String = "",
-    @ListDsl val maskSelectors: List<String> = emptyList(),
+    @DefaultEmptyList @ListDsl val maskSelectors: List<String> = emptyList(),
 )
