@@ -1,6 +1,11 @@
 package org.khorum.oss.euri.playwright.config
 
+import org.khorum.oss.konstellation.metaDsl.annotation.DefaultEmptyList
+import org.khorum.oss.konstellation.metaDsl.annotation.DefaultEmptyMap
+import org.khorum.oss.konstellation.metaDsl.annotation.DefaultEmptyString
+import org.khorum.oss.konstellation.metaDsl.annotation.DefaultNull
 import org.khorum.oss.konstellation.metaDsl.annotation.DefaultState
+import org.khorum.oss.konstellation.metaDsl.annotation.DefaultValue
 import org.khorum.oss.konstellation.metaDsl.annotation.GeneratedDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.ListDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.MapDsl
@@ -8,20 +13,20 @@ import org.khorum.oss.konstellation.metaDsl.annotation.MapDsl
 @GeneratedDsl
 @DefaultState
 data class BrowserLaunchConfig(
-    val headless: Boolean = true,
-    val channel: String = "",
-    @ListDsl val args: List<String> = emptyList(),
-    val chromiumSandbox: Boolean = false,
-    val downloadsPath: String = "",
-    val executablePath: String = "",
-    @MapDsl val env: Map<String, String> = emptyMap(),
-    val handleSIGHUP: Boolean = true,
-    val handleSIGINT: Boolean = true,
-    val handleSIGTERM: Boolean = true,
-    val ignoreAllDefaultArgs: Boolean = false,
-    @ListDsl val ignoreDefaultArgs: List<String> = emptyList(),
-    val proxy: ProxyConfig? = null,
-    val slowMo: Double = 0.0,
-    val timeout: Double = 30000.0,
-    val tracesDir: String = "",
+    @DefaultValue("true") val headless: Boolean = true,
+    @DefaultEmptyString val channel: String = "",
+    @DefaultEmptyList @ListDsl val args: List<String> = emptyList(),
+    @DefaultValue("false") val chromiumSandbox: Boolean = false,
+    @DefaultEmptyString val downloadsPath: String = "",
+    @DefaultEmptyString val executablePath: String = "",
+    @DefaultEmptyMap @MapDsl val env: Map<String, String> = emptyMap(),
+    @DefaultValue("true") val handleSIGHUP: Boolean = true,
+    @DefaultValue("true") val handleSIGINT: Boolean = true,
+    @DefaultValue("true") val handleSIGTERM: Boolean = true,
+    @DefaultValue("false") val ignoreAllDefaultArgs: Boolean = false,
+    @DefaultEmptyList @ListDsl val ignoreDefaultArgs: List<String> = emptyList(),
+    @DefaultNull val proxy: ProxyConfig? = null,
+    @DefaultValue("0.0") val slowMo: Double = 0.0,
+    @DefaultValue("30000.0") val timeout: Double = 30000.0,
+    @DefaultEmptyString val tracesDir: String = "",
 )
