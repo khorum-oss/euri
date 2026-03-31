@@ -1,4 +1,4 @@
-package org.khorum.oss.euri.playwright.runtime
+package org.khorum.oss.euri.dsl.runtime
 
 import com.microsoft.playwright.Locator
 import com.microsoft.playwright.options.AriaRole
@@ -6,6 +6,7 @@ import io.mockk.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.khorum.oss.euri.dsl.runtime.LocatorScope
+import java.nio.file.Paths
 import java.util.regex.Pattern
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -168,7 +169,7 @@ class LocatorScopeTest {
 
     @Test
     fun `setInputFiles delegates`() {
-        val files = arrayOf(java.nio.file.Paths.get("/tmp/file.txt"))
+        val files = arrayOf(Paths.get("/tmp/file.txt"))
         scope.setInputFiles(files)
         verify { locator.setInputFiles(files) }
     }

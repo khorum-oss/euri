@@ -1,4 +1,4 @@
-package org.khorum.oss.euri.playwright.config
+package org.khorum.oss.euri.dsl.config
 
 import org.junit.jupiter.api.Test
 import org.khorum.oss.euri.dsl.config.BrowserContextConfig

@@ -1,4 +1,4 @@
-package org.khorum.oss.euri.playwright.runtime
+package org.khorum.oss.euri.dsl.runtime
 
 import org.junit.jupiter.api.Test
 import org.khorum.oss.euri.dsl.runtime.PlaywrightDsl

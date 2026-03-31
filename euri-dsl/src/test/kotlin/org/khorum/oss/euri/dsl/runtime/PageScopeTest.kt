@@ -1,4 +1,4 @@
-package org.khorum.oss.euri.playwright.runtime
+package org.khorum.oss.euri.dsl.runtime
 
 import com.microsoft.playwright.*
 import com.microsoft.playwright.options.AriaRole

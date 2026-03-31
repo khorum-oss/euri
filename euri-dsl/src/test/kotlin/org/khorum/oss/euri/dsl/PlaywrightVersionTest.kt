@@ -1,11 +1,9 @@
-package org.khorum.oss.euri.playwright
+package org.khorum.oss.euri.dsl
 
 import org.junit.jupiter.api.Test
-import org.khorum.oss.euri.dsl.CompatibilityResult
-import org.khorum.oss.euri.dsl.PlaywrightVersion
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class PlaywrightVersionTest {
 
