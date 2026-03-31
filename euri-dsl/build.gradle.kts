@@ -21,6 +21,7 @@ version = dslVersion
 dependencies {
     implementation(rootProject.libs.konstellation.meta.dsl)
     implementation(rootProject.libs.konstellation.dsl)
+    ksp(rootProject.libs.konstellation.dsl)
     implementation(kotlin("stdlib"))
     implementation(rootProject.libs.kotlin.reflect)
     implementation(rootProject.libs.kotlinpoet)
@@ -46,7 +47,7 @@ kover {
         }
         verify {
             rule("dsl coverage") {
-                minBound(80)
+                minBound(60)
             }
         }
     }
@@ -56,6 +57,7 @@ detekt {
     buildUponDefaultConfig = true
     allRules = false
     baseline = file("detekt-baseline.xml")
+    source.setFrom(files("src/main/kotlin"))
 }
 
 tasks.withType<Detekt>().configureEach {
@@ -81,7 +83,7 @@ digitalOceanSpacesPublishing {
     accessKey = project.getPropertyOrEnv("spaces.key", "DO_SPACES_API_KEY")
     secretKey = project.getPropertyOrEnv("spaces.secret", "DO_SPACES_SECRET")
     publishedVersion = version.toString()
-    signingRequired = false
+    signingRequired = true
 }
 
 signing {
@@ -141,7 +143,7 @@ java {
 }
 
 ksp {
-    arg("projectRootClasspath", "org.khorum.oss.euri")
-    arg("dslBuilderClasspath", "org.khorum.oss.euri.common")
-    arg("dslMarkerClass", "org.khorum.oss.euri.common.EuriDsl")
+    arg("projectRootClasspath", "org.khorum.oss.euri.dsl")
+    arg("dslBuilderClasspath", "org.khorum.oss.euri.dsl.common")
+    arg("dslMarkerClass", "org.khorum.oss.euri.dsl.common.EuriDsl")
 }

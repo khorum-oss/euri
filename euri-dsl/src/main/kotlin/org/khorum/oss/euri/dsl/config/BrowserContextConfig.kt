@@ -10,14 +10,14 @@ import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.D
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultFalse
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultTrue
 
-@GeneratedDsl
+@GeneratedDsl(isRoot = true)
 data class BrowserContextConfig(
     @DefaultTrue val acceptDownloads: Boolean = true,
     @DefaultEmptyString val baseURL: String = "",
     @DefaultFalse val bypassCSP: Boolean = false,
     @DefaultValue("NO_PREFERENCE") val colorScheme: String = "NO_PREFERENCE",
     @DefaultValue("1.0") val deviceScaleFactor: Double = 1.0,
-    @DefaultEmptyMap @MapDsl val extraHTTPHeaders: Map<String, String> = emptyMap(),
+    @DefaultEmptyMap val extraHTTPHeaders: Map<String, String> = emptyMap(),
     @DefaultFalse val hasTouch: Boolean = false,
     val geolocation: GeolocationConfig? = null,
     val httpCredentials: HttpCredentialsConfig? = null,
@@ -26,7 +26,7 @@ data class BrowserContextConfig(
     @DefaultTrue val javaScriptEnabled: Boolean = true,
     @DefaultEmptyString val locale: String = "",
     @DefaultFalse val offline: Boolean = false,
-    @DefaultEmptyList @ListDsl val permissions: List<String> = emptyList(),
+    @DefaultEmptyList val permissions: List<String> = emptyList(),
     val proxy: ProxyConfig? = null,
     @DefaultEmptyString val recordHarPath: String = "",
     @DefaultEmptyString val recordVideoDir: String = "",
