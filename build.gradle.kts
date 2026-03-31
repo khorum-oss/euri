@@ -69,8 +69,7 @@ tasks.register("koverMergedReport") {
     group = "verification"
     description = "Generates merged coverage report for all modules"
 
-    dependsOn(project(":dsl").tasks.named("koverXmlReport"))
-    dependsOn(project(":playwright").tasks.named("koverXmlReport"))
+    dependsOn(project(":euri-dsl").tasks.named("koverXmlReport"))
 }
 
 tasks.register("initProject") {
@@ -131,10 +130,7 @@ sonar {
         property("sonar.host.url", "https://sonarcloud.io")
         property(
             "sonar.coverage.jacoco.xmlReportPaths",
-            listOf(
-                "${project(":dsl").layout.buildDirectory.get()}/reports/kover/report.xml",
-                "${project(":playwright").layout.buildDirectory.get()}/reports/kover/report.xml"
-            ).joinToString(",")
+            "${project(":euri-dsl").layout.buildDirectory.get()}/reports/kover/report.xml"
         )
     }
 }

@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:ConfigMappers.kt$fun BrowserContextConfig.toPlaywright(): Browser.NewContextOptions</ID>
+    <ID>NestedBlockDepth:PlaywrightDsl.kt$PlaywrightDsl$internal fun execute()</ID>
+    <ID>ReturnCount:PlaywrightVersion.kt$PlaywrightVersion$fun checkCompatibility(): CompatibilityResult</ID>
+    <ID>ReturnCount:PlaywrightVersion.kt$PlaywrightVersion$private fun isVersionGreaterOrEqual(actual: String, minimum: String): Boolean</ID>
+    <ID>TooManyFunctions:BrowserContextScope.kt$BrowserContextScope</ID>
+    <ID>TooManyFunctions:FrameScope.kt$FrameScope</ID>
+    <ID>TooManyFunctions:LocatorScope.kt$LocatorScope</ID>
+    <ID>TooManyFunctions:PageScope.kt$PageScope</ID>
+    <ID>UnusedPrivateProperty:ConfigMappersTest.kt$ConfigMappersTest$val options = config.toNavigateOptions()</ID>
+    <ID>UnusedPrivateProperty:ConfigMappersTest.kt$ConfigMappersTest$val options = config.toPlaywright()</ID>
+    <ID>WildcardImport:BrowserContextScopeTest.kt$import io.mockk.*</ID>
+    <ID>WildcardImport:ConfigMappers.kt$import org.khorum.oss.euri.playwright.config.*</ID>
+    <ID>WildcardImport:ConfigMappersTest.kt$import org.khorum.oss.euri.playwright.config.*</ID>
+    <ID>WildcardImport:FrameScopeTest.kt$import io.mockk.*</ID>
+    <ID>WildcardImport:LocatorScopeTest.kt$import io.mockk.*</ID>
+    <ID>WildcardImport:PageScope.kt$import com.microsoft.playwright.*</ID>
+    <ID>WildcardImport:PageScopeTest.kt$import com.microsoft.playwright.*</ID>
+    <ID>WildcardImport:PageScopeTest.kt$import io.mockk.*</ID>
+  </CurrentIssues>
+</SmellBaseline>
