@@ -12,8 +12,6 @@ import org.khorum.oss.euri.dsl.config.ScreenSizeConfig
 import org.khorum.oss.euri.dsl.config.ScreenshotConfig
 import org.khorum.oss.euri.dsl.config.VideoSizeConfig
 import org.khorum.oss.euri.dsl.config.ViewportConfig
-import org.khorum.oss.euri.dsl.mapping.toNavigateOptions
-import org.khorum.oss.euri.dsl.mapping.toPlaywright
 import kotlin.test.assertEquals
 
 class ConfigMappersTest {
@@ -104,7 +102,7 @@ class ConfigMappersTest {
     @Test
     fun `BrowserLaunchConfig toPlaywright with defaults`() {
         val config = BrowserLaunchConfig()
-        val options = config.toPlaywright()
+        config.toPlaywright()
         // headless defaults to true - options are set on the LaunchOptions object
         // We mainly verify no exception is thrown with defaults
     }
@@ -112,95 +110,95 @@ class ConfigMappersTest {
     @Test
     fun `BrowserLaunchConfig toPlaywright with channel set`() {
         val config = BrowserLaunchConfig(channel = "chrome")
-        val options = config.toPlaywright()
+        config.toPlaywright()
         // channel is set when non-empty
     }
 
     @Test
     fun `BrowserLaunchConfig toPlaywright with args set`() {
         val config = BrowserLaunchConfig(args = listOf("--no-sandbox", "--disable-gpu"))
-        val options = config.toPlaywright()
+        config.toPlaywright()
         // args are set when non-empty
     }
 
     @Test
     fun `BrowserLaunchConfig toPlaywright with downloadsPath set`() {
         val config = BrowserLaunchConfig(downloadsPath = "/tmp/downloads")
-        val options = config.toPlaywright()
+        config.toPlaywright()
         // downloadsPath is set when non-empty
     }
 
     @Test
     fun `BrowserLaunchConfig toPlaywright with executablePath set`() {
         val config = BrowserLaunchConfig(executablePath = "/usr/bin/chromium")
-        val options = config.toPlaywright()
+        config.toPlaywright()
         // executablePath is set when non-empty
     }
 
     @Test
     fun `BrowserLaunchConfig toPlaywright with env set`() {
         val config = BrowserLaunchConfig(env = mapOf("DISPLAY" to ":0"))
-        val options = config.toPlaywright()
+        config.toPlaywright()
         // env is set when non-empty
     }
 
     @Test
     fun `BrowserLaunchConfig toPlaywright with ignoreAllDefaultArgs true`() {
         val config = BrowserLaunchConfig(ignoreAllDefaultArgs = true)
-        val options = config.toPlaywright()
+        config.toPlaywright()
         // ignoreAllDefaultArgs is set when true
     }
 
     @Test
     fun `BrowserLaunchConfig toPlaywright with ignoreDefaultArgs set`() {
         val config = BrowserLaunchConfig(ignoreDefaultArgs = listOf("--mute-audio"))
-        val options = config.toPlaywright()
+        config.toPlaywright()
         // ignoreDefaultArgs is set when non-empty
     }
 
     @Test
     fun `BrowserLaunchConfig toPlaywright with proxy set`() {
         val config = BrowserLaunchConfig(proxy = ProxyConfig(server = "http://proxy:8080"))
-        val options = config.toPlaywright()
+        config.toPlaywright()
         // proxy is set when non-null
     }
 
     @Test
     fun `BrowserLaunchConfig toPlaywright with slowMo set`() {
         val config = BrowserLaunchConfig(slowMo = 100.0)
-        val options = config.toPlaywright()
+        config.toPlaywright()
         // slowMo is set when > 0
     }
 
     @Test
     fun `BrowserLaunchConfig toPlaywright with tracesDir set`() {
         val config = BrowserLaunchConfig(tracesDir = "/tmp/traces")
-        val options = config.toPlaywright()
+        config.toPlaywright()
         // tracesDir is set when non-empty
     }
 
     @Test
     fun `BrowserLaunchConfig toPlaywright with headless false`() {
         val config = BrowserLaunchConfig(headless = false)
-        val options = config.toPlaywright()
+        config.toPlaywright()
         // headless = false is passed through
     }
 
     @Test
     fun `BrowserLaunchConfig toPlaywright with signal handlers disabled`() {
         val config = BrowserLaunchConfig(
-            handleSIGHUP = false,
-            handleSIGINT = false,
-            handleSIGTERM = false
+            handleSighup = false,
+            handleSigint = false,
+            handleSigterm = false
         )
-        val options = config.toPlaywright()
+        config.toPlaywright()
         // signal handlers set to false
     }
 
     @Test
     fun `BrowserLaunchConfig toPlaywright with custom timeout`() {
         val config = BrowserLaunchConfig(timeout = 60000.0)
-        val options = config.toPlaywright()
+        config.toPlaywright()
         // timeout is always set
     }
 
@@ -214,9 +212,9 @@ class ConfigMappersTest {
             downloadsPath = "/tmp/downloads",
             executablePath = "/usr/bin/chromium",
             env = mapOf("DISPLAY" to ":0"),
-            handleSIGHUP = false,
-            handleSIGINT = false,
-            handleSIGTERM = false,
+            handleSighup = false,
+            handleSigint = false,
+            handleSigterm = false,
             ignoreAllDefaultArgs = true,
             ignoreDefaultArgs = listOf("--mute-audio"),
             proxy = ProxyConfig(server = "http://proxy:8080"),
@@ -224,7 +222,7 @@ class ConfigMappersTest {
             timeout = 60000.0,
             tracesDir = "/tmp/traces"
         )
-        val options = config.toPlaywright()
+        config.toPlaywright()
         // all fields set without exception
     }
 
@@ -233,51 +231,51 @@ class ConfigMappersTest {
     @Test
     fun `BrowserContextConfig toPlaywright with defaults`() {
         val config = BrowserContextConfig()
-        val options = config.toPlaywright()
+        config.toPlaywright()
         // defaults applied without exception
     }
 
     @Test
     fun `BrowserContextConfig toPlaywright with baseURL set`() {
-        val config = BrowserContextConfig(baseURL = "https://example.com")
-        val options = config.toPlaywright()
+        val config = BrowserContextConfig(baseUrl = "https://example.com")
+        config.toPlaywright()
     }
 
     @Test
     fun `BrowserContextConfig toPlaywright with colorScheme DARK`() {
         val config = BrowserContextConfig(colorScheme = "DARK")
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
     fun `BrowserContextConfig toPlaywright with colorScheme LIGHT`() {
         val config = BrowserContextConfig(colorScheme = "LIGHT")
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
     fun `BrowserContextConfig toPlaywright with colorScheme NO_PREFERENCE skips setting`() {
         val config = BrowserContextConfig(colorScheme = "NO_PREFERENCE")
-        val options = config.toPlaywright()
+        config.toPlaywright()
         // NO_PREFERENCE is the default and should not be set
     }
 
     @Test
     fun `BrowserContextConfig toPlaywright with deviceScaleFactor`() {
         val config = BrowserContextConfig(deviceScaleFactor = 2.0)
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
     fun `BrowserContextConfig toPlaywright with deviceScaleFactor default 1_0 skips setting`() {
         val config = BrowserContextConfig(deviceScaleFactor = 1.0)
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
     fun `BrowserContextConfig toPlaywright with extraHTTPHeaders`() {
-        val config = BrowserContextConfig(extraHTTPHeaders = mapOf("Authorization" to "Bearer token"))
-        val options = config.toPlaywright()
+        val config = BrowserContextConfig(extraHttpHeaders = mapOf("Authorization" to "Bearer token"))
+        config.toPlaywright()
     }
 
     @Test
@@ -285,7 +283,7 @@ class ConfigMappersTest {
         val config = BrowserContextConfig(
             geolocation = GeolocationConfig(latitude = 51.5, longitude = -0.1)
         )
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
@@ -293,19 +291,19 @@ class ConfigMappersTest {
         val config = BrowserContextConfig(
             httpCredentials = HttpCredentialsConfig(username = "user", password = "pass")
         )
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
     fun `BrowserContextConfig toPlaywright with locale set`() {
         val config = BrowserContextConfig(locale = "en-US")
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
     fun `BrowserContextConfig toPlaywright with permissions`() {
         val config = BrowserContextConfig(permissions = listOf("geolocation", "notifications"))
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
@@ -313,19 +311,19 @@ class ConfigMappersTest {
         val config = BrowserContextConfig(
             proxy = ProxyConfig(server = "http://proxy:8080")
         )
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
     fun `BrowserContextConfig toPlaywright with recordHarPath`() {
         val config = BrowserContextConfig(recordHarPath = "/tmp/har.json")
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
     fun `BrowserContextConfig toPlaywright with recordVideoDir`() {
         val config = BrowserContextConfig(recordVideoDir = "/tmp/videos")
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
@@ -333,7 +331,7 @@ class ConfigMappersTest {
         val config = BrowserContextConfig(
             recordVideoSize = VideoSizeConfig(width = 1280, height = 720)
         )
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
@@ -341,25 +339,25 @@ class ConfigMappersTest {
         val config = BrowserContextConfig(
             screenSize = ScreenSizeConfig(width = 1920, height = 1080)
         )
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
     fun `BrowserContextConfig toPlaywright with storageStatePath`() {
         val config = BrowserContextConfig(storageStatePath = "/tmp/storage.json")
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
     fun `BrowserContextConfig toPlaywright with timezoneId`() {
         val config = BrowserContextConfig(timezoneId = "America/New_York")
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
     fun `BrowserContextConfig toPlaywright with userAgent`() {
         val config = BrowserContextConfig(userAgent = "CustomAgent/1.0")
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
@@ -367,37 +365,37 @@ class ConfigMappersTest {
         val config = BrowserContextConfig(
             viewport = ViewportConfig(width = 1920, height = 1080)
         )
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
     fun `BrowserContextConfig toPlaywright with boolean flags`() {
         val config = BrowserContextConfig(
             acceptDownloads = false,
-            bypassCSP = true,
+            bypassCsp = true,
             hasTouch = true,
-            ignoreHTTPSErrors = true,
+            ignoreHttpsErrors = true,
             isMobile = true,
             javaScriptEnabled = false,
             offline = true,
             strictSelectors = true
         )
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
     fun `BrowserContextConfig toPlaywright with all fields`() {
         val config = BrowserContextConfig(
             acceptDownloads = false,
-            baseURL = "https://example.com",
-            bypassCSP = true,
+            baseUrl = "https://example.com",
+            bypassCsp = true,
             colorScheme = "DARK",
             deviceScaleFactor = 2.0,
-            extraHTTPHeaders = mapOf("X-Custom" to "value"),
+            extraHttpHeaders = mapOf("X-Custom" to "value"),
             hasTouch = true,
             geolocation = GeolocationConfig(latitude = 51.5, longitude = -0.1),
             httpCredentials = HttpCredentialsConfig(username = "u", password = "p"),
-            ignoreHTTPSErrors = true,
+            ignoreHttpsErrors = true,
             isMobile = true,
             javaScriptEnabled = false,
             locale = "en-US",
@@ -414,7 +412,7 @@ class ConfigMappersTest {
             userAgent = "CustomAgent/1.0",
             viewport = ViewportConfig(width = 1920, height = 1080)
         )
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     // ---- NavigationConfig.toNavigateOptions() ----
@@ -422,7 +420,7 @@ class ConfigMappersTest {
     @Test
     fun `NavigationConfig toNavigateOptions with defaults`() {
         val config = NavigationConfig(url = "https://example.com")
-        val options = config.toNavigateOptions()
+        config.toPlaywright()
         // timeout and waitUntil are always set
     }
 
@@ -432,7 +430,7 @@ class ConfigMappersTest {
             url = "https://example.com",
             referer = "https://google.com"
         )
-        val options = config.toNavigateOptions()
+        config.toPlaywright()
     }
 
     @Test
@@ -441,7 +439,7 @@ class ConfigMappersTest {
             url = "https://example.com",
             waitUntil = "DOMCONTENTLOADED"
         )
-        val options = config.toNavigateOptions()
+        config.toPlaywright()
     }
 
     @Test
@@ -450,7 +448,7 @@ class ConfigMappersTest {
             url = "https://example.com",
             waitUntil = "NETWORKIDLE"
         )
-        val options = config.toNavigateOptions()
+        config.toPlaywright()
     }
 
     @Test
@@ -459,7 +457,7 @@ class ConfigMappersTest {
             url = "https://example.com",
             waitUntil = "COMMIT"
         )
-        val options = config.toNavigateOptions()
+        config.toPlaywright()
     }
 
     @Test
@@ -468,7 +466,7 @@ class ConfigMappersTest {
             url = "https://example.com",
             timeout = 60000.0
         )
-        val options = config.toNavigateOptions()
+        config.toPlaywright()
     }
 
     @Test
@@ -479,7 +477,7 @@ class ConfigMappersTest {
             timeout = 5000.0,
             referer = "https://google.com"
         )
-        val options = config.toNavigateOptions()
+        config.toPlaywright()
     }
 
     // ---- ScreenshotConfig.toPlaywright() ----
@@ -487,25 +485,25 @@ class ConfigMappersTest {
     @Test
     fun `ScreenshotConfig toPlaywright with defaults`() {
         val config = ScreenshotConfig()
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
     fun `ScreenshotConfig toPlaywright with path set`() {
         val config = ScreenshotConfig(path = "/tmp/screenshot.png")
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
     fun `ScreenshotConfig toPlaywright with fullPage true`() {
         val config = ScreenshotConfig(fullPage = true)
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
     fun `ScreenshotConfig toPlaywright with omitBackground true`() {
         val config = ScreenshotConfig(omitBackground = true)
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
@@ -513,25 +511,25 @@ class ConfigMappersTest {
         val config = ScreenshotConfig(
             clip = ClipConfig(x = 0.0, y = 0.0, width = 100.0, height = 100.0)
         )
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
     fun `ScreenshotConfig toPlaywright with quality set`() {
         val config = ScreenshotConfig(quality = 80)
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
     fun `ScreenshotConfig toPlaywright with quality negative skips setting`() {
         val config = ScreenshotConfig(quality = -1)
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
     fun `ScreenshotConfig toPlaywright with style set`() {
         val config = ScreenshotConfig(style = "body { background: red; }")
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 
     @Test
@@ -545,6 +543,6 @@ class ConfigMappersTest {
             omitBackground = true,
             style = "body { background: transparent; }"
         )
-        val options = config.toPlaywright()
+        config.toPlaywright()
     }
 }

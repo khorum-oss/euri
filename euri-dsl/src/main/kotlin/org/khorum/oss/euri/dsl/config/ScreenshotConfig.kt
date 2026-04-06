@@ -1,20 +1,35 @@
 package org.khorum.oss.euri.dsl.config
 
+import com.microsoft.playwright.Page
+import org.khorum.oss.euri.dsl.common.toPath
 import org.khorum.oss.konstellation.metaDsl.annotation.GeneratedDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.ListDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.DefaultValue
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultEmptyList
-import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultEmptyString
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultFalse
+import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.NegationFunctionTemplate.DO_NOT
+import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.NegationFunctionTemplate.NOT
 
 @GeneratedDsl
 data class ScreenshotConfig(
-    @DefaultEmptyString val path: String = "",
     @DefaultValue("PNG") val type: String = "PNG",
     @DefaultValue("-1") val quality: Int = -1,
-    @DefaultFalse val fullPage: Boolean = false,
-    val clip: ClipConfig? = null,
-    @DefaultFalse val omitBackground: Boolean = false,
-    @DefaultEmptyString val style: String = "",
+    val path: String? = null,
+    val style: String? = null,
+
+    @DefaultFalse(negationTemplate = NOT) val fullPage: Boolean = false,
+    @DefaultFalse(negationTemplate = DO_NOT) val omitBackground: Boolean = false,
+
     @DefaultEmptyList @ListDsl val maskSelectors: List<String> = emptyList(),
-)
+
+    val clip: ClipConfig? = null,
+) : PlaywrightConfig<Page.ScreenshotOptions> {
+    override fun toPlaywright(): Page.ScreenshotOptions = Page.ScreenshotOptions().also { options ->
+        options.setPath(path?.toPath())
+        options.setFullPage(fullPage)
+        options.setOmitBackground(omitBackground)
+        clip?.let { options.setClip(it.x, it.y, it.width, it.height) }
+        if (quality >= 0) options.setQuality(quality)
+        options.setStyle(style)
+    }
+}

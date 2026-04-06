@@ -7,7 +7,6 @@ import com.microsoft.playwright.Playwright
 import org.khorum.oss.euri.dsl.common.EuriDsl
 import org.khorum.oss.euri.dsl.config.BrowserContextConfig
 import org.khorum.oss.euri.dsl.config.BrowserLaunchConfig
-import org.khorum.oss.euri.dsl.mapping.toPlaywright
 
 @EuriDsl
 class PlaywrightDsl {
@@ -45,9 +44,10 @@ class PlaywrightDsl {
         pageActions.add(block)
     }
 
+    @Suppress("CyclomaticComplexMethod", "NestedBlockDepth")
     internal fun execute() {
         val pw = Playwright.create()
-        try {
+        pw.use { pw ->
             val browserType: BrowserType = when (browserTypeName) {
                 "chromium" -> pw.chromium()
                 "firefox" -> pw.firefox()
@@ -57,10 +57,10 @@ class PlaywrightDsl {
 
             val launchOpts = launchConfig?.toPlaywright() ?: launchOptions ?: BrowserType.LaunchOptions()
             val browser: Browser = browserType.launch(launchOpts)
-            try {
+            browser.use { browser ->
                 val contextOpts = contextConfig?.toPlaywright() ?: contextOptions ?: Browser.NewContextOptions()
                 val context: BrowserContext = browser.newContext(contextOpts)
-                try {
+                context.use { context ->
                     contextActions.forEach { action ->
                         BrowserContextScope(context).apply(action)
                     }
@@ -71,14 +71,8 @@ class PlaywrightDsl {
                             PageScope(page).apply(action)
                         }
                     }
-                } finally {
-                    context.close()
                 }
-            } finally {
-                browser.close()
             }
-        } finally {
-            pw.close()
         }
     }
 }
