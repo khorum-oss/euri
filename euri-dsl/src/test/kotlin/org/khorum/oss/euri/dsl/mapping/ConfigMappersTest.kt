@@ -1,5 +1,6 @@
 package org.khorum.oss.euri.dsl.mapping
 
+import com.microsoft.playwright.options.WaitUntilState
 import org.junit.jupiter.api.Test
 import org.khorum.oss.euri.dsl.config.BrowserContextConfig
 import org.khorum.oss.euri.dsl.config.BrowserLaunchConfig
@@ -437,7 +438,7 @@ class ConfigMappersTest {
     fun `NavigationConfig toNavigateOptions with custom waitUntil`() {
         val config = NavigationConfig(
             url = "https://example.com",
-            waitUntil = "DOMCONTENTLOADED"
+            waitUntil = WaitUntilState.DOMCONTENTLOADED.name
         )
         config.toPlaywright()
     }
@@ -446,7 +447,7 @@ class ConfigMappersTest {
     fun `NavigationConfig toNavigateOptions with NETWORKIDLE`() {
         val config = NavigationConfig(
             url = "https://example.com",
-            waitUntil = "NETWORKIDLE"
+            waitUntil = WaitUntilState.NETWORKIDLE.name
         )
         config.toPlaywright()
     }
@@ -455,7 +456,7 @@ class ConfigMappersTest {
     fun `NavigationConfig toNavigateOptions with COMMIT`() {
         val config = NavigationConfig(
             url = "https://example.com",
-            waitUntil = "COMMIT"
+            waitUntil = WaitUntilState.COMMIT.name
         )
         config.toPlaywright()
     }
@@ -473,7 +474,7 @@ class ConfigMappersTest {
     fun `NavigationConfig toNavigateOptions with all fields`() {
         val config = NavigationConfig(
             url = "https://example.com",
-            waitUntil = "DOMCONTENTLOADED",
+            waitUntil = WaitUntilState.DOMCONTENTLOADED.name,
             timeout = 5000.0,
             referer = "https://google.com"
         )

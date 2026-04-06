@@ -7,8 +7,6 @@ import org.khorum.oss.konstellation.metaDsl.annotation.ListDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.MapDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.RootDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.DefaultValue
-import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultEmptyList
-import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultEmptyMap
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultFalse
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultTrue
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultZeroDouble

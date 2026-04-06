@@ -8,7 +8,7 @@ import org.khorum.oss.konstellation.metaDsl.annotation.defaults.DefaultValue
 @GeneratedDsl
 data class NavigationConfig(
     val url: String,
-    @DefaultValue("LOAD") val waitUntil: WaitUntilState = WaitUntilState.LOAD,
+    @DefaultValue("LOAD") val waitUntil: String = WaitUntilState.LOAD.name,
     @DefaultValue("30000.0") val timeout: Double = 30000.0,
     val referer: String? = null,
 ) : PlaywrightConfig<Page.NavigateOptions> {
