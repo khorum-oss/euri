@@ -1,56 +1,54 @@
 package org.khorum.oss.euri.dsl.runtime
 
 import org.junit.jupiter.api.Test
-import org.khorum.oss.euri.dsl.runtime.PlaywrightDsl
-import org.khorum.oss.euri.dsl.runtime.playwright
 import kotlin.test.assertTrue
 
 class PlaywrightDslTest {
 
     @Test
     fun `PlaywrightDsl can be instantiated`() {
-        val dsl = PlaywrightDsl()
+        val dsl = PlaywrightRuntime()
         // verify DSL object is created without exception
     }
 
     @Test
     fun `chromium sets browser type`() {
-        val dsl = PlaywrightDsl()
+        val dsl = PlaywrightRuntime()
         dsl.chromium()
         // no exception thrown
     }
 
     @Test
     fun `firefox sets browser type`() {
-        val dsl = PlaywrightDsl()
+        val dsl = PlaywrightRuntime()
         dsl.firefox()
         // no exception thrown
     }
 
     @Test
     fun `webkit sets browser type`() {
-        val dsl = PlaywrightDsl()
+        val dsl = PlaywrightRuntime()
         dsl.webkit()
         // no exception thrown
     }
 
     @Test
     fun `launch configures launch options`() {
-        val dsl = PlaywrightDsl()
+        val dsl = PlaywrightRuntime()
         dsl.launch { setHeadless(true) }
         // no exception thrown
     }
 
     @Test
     fun `context configures context options`() {
-        val dsl = PlaywrightDsl()
+        val dsl = PlaywrightRuntime()
         dsl.context { setLocale("en-US") }
         // no exception thrown
     }
 
     @Test
     fun `page registers page action`() {
-        val dsl = PlaywrightDsl()
+        val dsl = PlaywrightRuntime()
         var called = false
         dsl.page { called = true }
         // action is registered, not executed yet
@@ -59,7 +57,7 @@ class PlaywrightDslTest {
 
     @Test
     fun `contextScope registers context action`() {
-        val dsl = PlaywrightDsl()
+        val dsl = PlaywrightRuntime()
         var called = false
         dsl.contextScope { called = true }
         // action is registered, not executed yet
@@ -67,7 +65,7 @@ class PlaywrightDslTest {
 
     @Test
     fun `multiple page actions can be registered`() {
-        val dsl = PlaywrightDsl()
+        val dsl = PlaywrightRuntime()
         val actions = mutableListOf<Int>()
         dsl.page { actions.add(1) }
         dsl.page { actions.add(2) }

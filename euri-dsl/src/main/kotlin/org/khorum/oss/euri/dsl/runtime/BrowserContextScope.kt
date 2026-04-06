@@ -32,10 +32,10 @@ class BrowserContextScope(private val context: BrowserContext) {
 
     fun setOffline(offline: Boolean) = context.setOffline(offline)
 
-    fun newPage(block: PageScope.() -> Unit) {
-        val page = context.newPage()
-        PageScope(page).apply(block)
-    }
+//    fun newPage(block: PageScope.() -> Unit) {
+//        val page = context.newPage()
+//        PageScope(page).apply(block)
+//    }
 
     fun pages(): List<Page> = context.pages()
 

@@ -16,6 +16,35 @@ import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.N
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.NegationFunctionTemplate.DO_NOT
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.NegationFunctionTemplate.IS_NOT
 
+/**
+ * @property deviceScaleFactor (default: 1.0) sets a specific scale (e.g. 2) to scale the page. Useful if you have
+ * different page sizes and want to emulate the same page size in the browser.
+ * @property acceptDownloads (default: true) whether to automatically download all the attachments.
+ * @property javaScriptEnabled (default: true) whether to enable JavaScript, disabling JavaScript will throw an error
+ * if a page tries to use JavaScript.
+ * @property bypassCsp (default: false) whether to bypass the page's Content-Security-Policy.
+ * @property hasTouch (default: false) whether the browser supports touch events.
+ * @property ignoreHttpsErrors (default: false) whether to ignore HTTPS errors while loading.
+ * @property isMobile (default: false) whether the browser is running in mobile view.
+ * @property offline (default: false) whether to emulate network being offline.
+ * @property strictSelectors (default: false) whether to enable strict selectors.
+ * @property colorScheme (default: "NO_PREFERENCE") whether to emulate given media type.
+ * @property baseUrl (default: null) base URL to use in actions like `page.goto()`.
+ * @property locale (default: null) locale to use (e.g. en-GB, fr-CH).
+ * @property recordHarPath (default: null) path to the HAR file to record.
+ * @property recordVideoDir (default: null) path to the directory to put record videos into.
+ * @property storageStatePath (default: null) path to the file to read and write storage state from/to.
+ * @property timezoneId (default: null) timezone id to use (e.g. Europe/Berlin).
+ * @property userAgent (default: null) specific user agent to use in this browser instance.
+ * @property extraHttpHeaders (default: emptyMap) additional HTTP headers to use in this browser context.
+ * @property permissions (default: null) permissions to grant to all pages in this browser context.
+ * @property geolocation (default: null) geolocation to use or `null` if not specified.
+ * @property httpCredentials (default: null) http credentials to use or `null` if not specified.
+ * @property proxy (default: null) proxy settings to use or `null` if not specified.
+ * @property recordVideoSize (default: null) size of the videos to record.
+ * @property screenSize (default: null) screen size to emulate.
+ * @property viewport (default: null) viewport size to emulate.
+ */
 @RootDsl
 @GeneratedDsl
 data class BrowserContextConfig(
