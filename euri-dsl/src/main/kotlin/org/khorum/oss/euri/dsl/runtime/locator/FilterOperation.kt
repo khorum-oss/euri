@@ -5,9 +5,6 @@ import org.khorum.oss.euri.dsl.config.PlaywrightConfig
 import org.khorum.oss.euri.dsl.runtime.LocatorScope
 import org.khorum.oss.konstellation.metaDsl.annotation.GeneratedDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.TransientDsl
-import org.khorum.oss.konstellation.metaDsl.annotation.defaults.DefaultValue
-import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultFalse
-import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.NegationFunctionTemplate.DO_NOT
 
 @GeneratedDsl
 class FilterOperation(
@@ -16,13 +13,17 @@ class FilterOperation(
     val hasNotText: Any? = null,
     val hasText: Any? = null
 ) : PlaywrightConfig<Locator.FilterOptions>, LocatorOperation {
+    @TransientDsl
+    internal var childScope: LocatorScope? = null
+
     override fun process(locator: Locator) {
-        locator.filter(toPlaywright())
+        val narrowed = locator.filter(toPlaywright())
+        childScope?.process(narrowed)
     }
 
     override fun toPlaywright(): Locator.FilterOptions = Locator.FilterOptions().also {
-        it.has = has?.locator
-        it.hasNot = hasNot?.locator
+        it.has = has?.resolvedLocator
+        it.hasNot = hasNot?.resolvedLocator
         it.hasText = hasText
         it.hasNotText = hasNotText
     }

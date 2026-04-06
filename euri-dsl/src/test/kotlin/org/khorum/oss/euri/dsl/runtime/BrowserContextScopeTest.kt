@@ -3,10 +3,11 @@ package org.khorum.oss.euri.dsl.runtime
 import com.microsoft.playwright.BrowserContext
 import com.microsoft.playwright.Page
 import com.microsoft.playwright.options.Cookie
-import io.mockk.*
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.khorum.oss.euri.dsl.runtime.BrowserContextScope
 import kotlin.test.assertEquals
 import kotlin.test.assertSame
 
@@ -78,15 +79,16 @@ class BrowserContextScopeTest {
         verify { context.setOffline(true) }
     }
 
-    @Test
-    fun `newPage creates page and applies block`() {
-        val page = mockk<Page>(relaxed = true)
-        every { context.newPage() } returns page
-        var blockCalled = false
-        scope.newPage { blockCalled = true }
-        assertTrue(blockCalled)
-        verify { context.newPage() }
-    }
+    // Commented out — newPage is part of the PageScope refactor (currently commented out in BrowserContextScope)
+//    @Test
+//    fun `newPage creates page and applies block`() {
+//        val page = mockk<Page>(relaxed = true)
+//        every { context.newPage() } returns page
+//        var blockCalled = false
+//        scope.newPage { blockCalled = true }
+//        assertTrue(blockCalled)
+//        verify { context.newPage() }
+//    }
 
     @Test
     fun `pages delegates to context`() {
@@ -123,9 +125,5 @@ class BrowserContextScopeTest {
     @Test
     fun `raw returns underlying context`() {
         assertSame(context, scope.raw)
-    }
-
-    private fun assertTrue(value: Boolean) {
-        kotlin.test.assertTrue(value)
     }
 }

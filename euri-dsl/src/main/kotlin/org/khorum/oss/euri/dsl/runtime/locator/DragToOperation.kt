@@ -1,17 +1,13 @@
 package org.khorum.oss.euri.dsl.runtime.locator
 
 import com.microsoft.playwright.Locator
-import com.microsoft.playwright.options.KeyboardModifier
-import com.microsoft.playwright.options.MouseButton
 import org.khorum.oss.euri.dsl.config.PlaywrightConfig
 import org.khorum.oss.euri.dsl.runtime.LocatorScope
 import org.khorum.oss.euri.dsl.runtime.PlaywrightPosition
 import org.khorum.oss.konstellation.metaDsl.annotation.GeneratedDsl
-import org.khorum.oss.konstellation.metaDsl.annotation.ListDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.TransientDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.DefaultValue
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultFalse
-import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultZeroDouble
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.NegationFunctionTemplate.DO_NOT
 
 @GeneratedDsl
@@ -28,9 +24,9 @@ class DragToOperation(
     @TransientDsl
     internal var targetScope: LocatorScope? = null
 
-    override fun process(locator: Locator): Unit {
+    override fun process(locator: Locator) {
         val targetScope = requireNotNull(targetScope) { "Target scope is not set" }
-        locator.dragTo(targetScope.locator, toPlaywright())
+        locator.dragTo(targetScope.resolvedLocator, toPlaywright())
     }
 
     override fun toPlaywright(): Locator.DragToOptions = Locator.DragToOptions().also { options ->

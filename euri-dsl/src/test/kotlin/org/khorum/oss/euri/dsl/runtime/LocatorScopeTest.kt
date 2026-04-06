@@ -2,16 +2,14 @@ package org.khorum.oss.euri.dsl.runtime
 
 import com.microsoft.playwright.Locator
 import com.microsoft.playwright.options.AriaRole
+import com.microsoft.playwright.options.MouseButton
 import io.mockk.*
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.khorum.oss.euri.dsl.runtime.LocatorScope
-import java.nio.file.Paths
-import java.util.regex.Pattern
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
-import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
 class LocatorScopeTest {
@@ -22,512 +20,437 @@ class LocatorScopeTest {
     @BeforeEach
     fun setup() {
         locator = mockk(relaxed = true)
-        scope = LocatorScope(locator)
-    }
-
-    // Actions
-
-    @Test
-    fun `click without options`() {
-        scope.click()
-        verify { locator.click(any<Locator.ClickOptions>()) }
-    }
-
-    @Test
-    fun `click with options`() {
-        scope.click { setClickCount(2) }
-        verify { locator.click(any<Locator.ClickOptions>()) }
-    }
-
-    @Test
-    fun `dblclick without options`() {
-        scope.dblclick()
-        verify { locator.dblclick(any<Locator.DblclickOptions>()) }
-    }
-
-    @Test
-    fun `dblclick with options`() {
-        scope.dblclick { setForce(true) }
-        verify { locator.dblclick(any<Locator.DblclickOptions>()) }
-    }
-
-    @Test
-    fun `fill without options`() {
-        scope.fill("text")
-        verify { locator.fill("text", any<Locator.FillOptions>()) }
-    }
-
-    @Test
-    fun `fill with options`() {
-        scope.fill("text") { setForce(true) }
-        verify { locator.fill("text", any<Locator.FillOptions>()) }
-    }
-
-    @Test
-    fun `press without options`() {
-        scope.press("Enter")
-        verify { locator.press("Enter", any<Locator.PressOptions>()) }
-    }
-
-    @Test
-    fun `press with options`() {
-        scope.press("Enter") { setDelay(100.0) }
-        verify { locator.press("Enter", any<Locator.PressOptions>()) }
-    }
-
-    @Test
-    fun `pressSequentially without options`() {
-        scope.pressSequentially("hello")
-        verify { locator.pressSequentially("hello", any<Locator.PressSequentiallyOptions>()) }
-    }
-
-    @Test
-    fun `pressSequentially with options`() {
-        scope.pressSequentially("hello") { setDelay(50.0) }
-        verify { locator.pressSequentially("hello", any<Locator.PressSequentiallyOptions>()) }
-    }
-
-    @Test
-    fun `check without options`() {
-        scope.check()
-        verify { locator.check(any<Locator.CheckOptions>()) }
-    }
-
-    @Test
-    fun `check with options`() {
-        scope.check { setForce(true) }
-        verify { locator.check(any<Locator.CheckOptions>()) }
-    }
-
-    @Test
-    fun `uncheck without options`() {
-        scope.uncheck()
-        verify { locator.uncheck(any<Locator.UncheckOptions>()) }
-    }
-
-    @Test
-    fun `uncheck with options`() {
-        scope.uncheck { setForce(true) }
-        verify { locator.uncheck(any<Locator.UncheckOptions>()) }
-    }
-
-    @Test
-    fun `hover without options`() {
-        scope.hover()
-        verify { locator.hover(any<Locator.HoverOptions>()) }
-    }
-
-    @Test
-    fun `hover with options`() {
-        scope.hover { setForce(true) }
-        verify { locator.hover(any<Locator.HoverOptions>()) }
-    }
-
-    @Test
-    fun `focus delegates`() {
-        scope.focus()
-        verify { locator.focus() }
-    }
-
-    @Test
-    fun `blur without options`() {
-        scope.blur()
-        verify { locator.blur(any<Locator.BlurOptions>()) }
-    }
-
-    @Test
-    fun `blur with options`() {
-        scope.blur { setTimeout(5000.0) }
-        verify { locator.blur(any<Locator.BlurOptions>()) }
-    }
-
-    @Test
-    fun `clear without options`() {
-        scope.clear()
-        verify { locator.clear(any<Locator.ClearOptions>()) }
-    }
-
-    @Test
-    fun `clear with options`() {
-        scope.clear { setForce(true) }
-        verify { locator.clear(any<Locator.ClearOptions>()) }
-    }
-
-    @Test
-    fun `selectOption with single value`() {
-        every { locator.selectOption("value1") } returns listOf("value1")
-        val result = scope.selectOption("value1")
-        assertEquals(listOf("value1"), result)
-    }
-
-    @Test
-    fun `selectOption with multiple values`() {
-        every { locator.selectOption(arrayOf("a", "b")) } returns listOf("a", "b")
-        val result = scope.selectOption(arrayOf("a", "b"))
-        assertEquals(listOf("a", "b"), result)
-    }
-
-    @Test
-    fun `setInputFiles delegates`() {
-        val files = arrayOf(Paths.get("/tmp/file.txt"))
-        scope.setInputFiles(files)
-        verify { locator.setInputFiles(files) }
-    }
-
-    @Test
-    fun `dragTo without options`() {
-        val targetLocator = mockk<Locator>(relaxed = true)
-        val targetScope = LocatorScope(targetLocator)
-        scope.dragTo(targetScope)
-        verify { locator.dragTo(targetLocator, any<Locator.DragToOptions>()) }
-    }
-
-    @Test
-    fun `dragTo with options`() {
-        val targetLocator = mockk<Locator>(relaxed = true)
-        val targetScope = LocatorScope(targetLocator)
-        scope.dragTo(targetScope) { setForce(true) }
-        verify { locator.dragTo(targetLocator, any<Locator.DragToOptions>()) }
-    }
-
-    // Chaining
-
-    @Test
-    fun `locator chaining`() {
-        val child = mockk<Locator>(relaxed = true)
-        every { locator.locator("span") } returns child
-        val result = scope.locator("span")
-        assertEquals(child, result.raw)
-    }
-
-    @Test
-    fun `filter returns new LocatorScope`() {
-        val filtered = mockk<Locator>(relaxed = true)
-        every { locator.filter(any<Locator.FilterOptions>()) } returns filtered
-        val result = scope.filter { setHasText("hello") }
-        assertEquals(filtered, result.raw)
-    }
-
-    @Test
-    fun `first returns new LocatorScope`() {
-        val first = mockk<Locator>(relaxed = true)
-        every { locator.first() } returns first
-        assertEquals(first, scope.first().raw)
-    }
-
-    @Test
-    fun `last returns new LocatorScope`() {
-        val last = mockk<Locator>(relaxed = true)
-        every { locator.last() } returns last
-        assertEquals(last, scope.last().raw)
-    }
-
-    @Test
-    fun `nth returns new LocatorScope`() {
-        val nth = mockk<Locator>(relaxed = true)
-        every { locator.nth(2) } returns nth
-        assertEquals(nth, scope.nth(2).raw)
-    }
-
-    @Test
-    fun `and returns new LocatorScope`() {
-        val other = mockk<Locator>(relaxed = true)
-        val combined = mockk<Locator>(relaxed = true)
-        every { locator.and(other) } returns combined
-        val result = scope.and(LocatorScope(other))
-        assertEquals(combined, result.raw)
-    }
-
-    @Test
-    fun `or returns new LocatorScope`() {
-        val other = mockk<Locator>(relaxed = true)
-        val combined = mockk<Locator>(relaxed = true)
-        every { locator.or(other) } returns combined
-        val result = scope.or(LocatorScope(other))
-        assertEquals(combined, result.raw)
-    }
-
-    @Test
-    fun `getByRole delegates to locator`() {
-        val child = mockk<Locator>(relaxed = true)
-        every { locator.getByRole(AriaRole.BUTTON, any<Locator.GetByRoleOptions>()) } returns child
-        val result = scope.getByRole(AriaRole.BUTTON)
-        assertEquals(child, result.raw)
-    }
-
-    @Test
-    fun `getByRole with options`() {
-        val child = mockk<Locator>(relaxed = true)
-        every { locator.getByRole(AriaRole.BUTTON, any<Locator.GetByRoleOptions>()) } returns child
-        scope.getByRole(AriaRole.BUTTON) { setName("Submit") }
-        verify { locator.getByRole(AriaRole.BUTTON, any<Locator.GetByRoleOptions>()) }
-    }
-
-    @Test
-    fun `getByText with string`() {
-        val child = mockk<Locator>(relaxed = true)
-        every { locator.getByText(eq("Hello"), any<Locator.GetByTextOptions>()) } returns child
-        val result = scope.getByText("Hello")
-        assertEquals(child, result.raw)
-    }
-
-    @Test
-    fun `getByText with exact`() {
-        val child = mockk<Locator>(relaxed = true)
-        every { locator.getByText(eq("Hello"), any<Locator.GetByTextOptions>()) } returns child
-        scope.getByText("Hello", exact = true)
-        verify { locator.getByText("Hello", any<Locator.GetByTextOptions>()) }
-    }
-
-    @Test
-    fun `getByText with Pattern`() {
-        val child = mockk<Locator>(relaxed = true)
-        val pattern = Pattern.compile("hello.*")
-        every { locator.getByText(pattern) } returns child
-        val result = scope.getByText(pattern)
-        assertEquals(child, result.raw)
-    }
-
-    @Test
-    fun `getByLabel delegates`() {
-        val child = mockk<Locator>(relaxed = true)
-        every { locator.getByLabel(eq("Username"), any<Locator.GetByLabelOptions>()) } returns child
-        val result = scope.getByLabel("Username")
-        assertEquals(child, result.raw)
-    }
-
-    @Test
-    fun `getByLabel with exact`() {
-        val child = mockk<Locator>(relaxed = true)
-        every { locator.getByLabel(eq("Username"), any<Locator.GetByLabelOptions>()) } returns child
-        scope.getByLabel("Username", exact = true)
-        verify { locator.getByLabel("Username", any<Locator.GetByLabelOptions>()) }
-    }
-
-    @Test
-    fun `getByPlaceholder delegates`() {
-        val child = mockk<Locator>(relaxed = true)
-        every { locator.getByPlaceholder(eq("Search"), any<Locator.GetByPlaceholderOptions>()) } returns child
-        val result = scope.getByPlaceholder("Search")
-        assertEquals(child, result.raw)
-    }
-
-    @Test
-    fun `getByPlaceholder with exact`() {
-        val child = mockk<Locator>(relaxed = true)
-        every { locator.getByPlaceholder(eq("Search"), any<Locator.GetByPlaceholderOptions>()) } returns child
-        scope.getByPlaceholder("Search", exact = true)
-        verify { locator.getByPlaceholder("Search", any<Locator.GetByPlaceholderOptions>()) }
-    }
-
-    @Test
-    fun `getByTestId delegates`() {
-        val child = mockk<Locator>(relaxed = true)
-        every { locator.getByTestId("test-id") } returns child
-        val result = scope.getByTestId("test-id")
-        assertEquals(child, result.raw)
-    }
-
-    @Test
-    fun `getByAltText delegates`() {
-        val child = mockk<Locator>(relaxed = true)
-        every { locator.getByAltText(eq("Logo"), any<Locator.GetByAltTextOptions>()) } returns child
-        val result = scope.getByAltText("Logo")
-        assertEquals(child, result.raw)
-    }
-
-    @Test
-    fun `getByAltText with exact`() {
-        val child = mockk<Locator>(relaxed = true)
-        every { locator.getByAltText(eq("Logo"), any<Locator.GetByAltTextOptions>()) } returns child
-        scope.getByAltText("Logo", exact = true)
-        verify { locator.getByAltText("Logo", any<Locator.GetByAltTextOptions>()) }
-    }
-
-    @Test
-    fun `getByTitle delegates`() {
-        val child = mockk<Locator>(relaxed = true)
-        every { locator.getByTitle(eq("Help"), any<Locator.GetByTitleOptions>()) } returns child
-        val result = scope.getByTitle("Help")
-        assertEquals(child, result.raw)
-    }
-
-    @Test
-    fun `getByTitle with exact`() {
-        val child = mockk<Locator>(relaxed = true)
-        every { locator.getByTitle(eq("Help"), any<Locator.GetByTitleOptions>()) } returns child
-        scope.getByTitle("Help", exact = true)
-        verify { locator.getByTitle("Help", any<Locator.GetByTitleOptions>()) }
-    }
-
-    // State queries
-
-    @Test
-    fun `isVisible without options`() {
-        every { locator.isVisible(any<Locator.IsVisibleOptions>()) } returns true
-        assertTrue(scope.isVisible())
-    }
-
-    @Test
-    fun `isVisible with options`() {
-        every { locator.isVisible(any<Locator.IsVisibleOptions>()) } returns false
-        assertFalse(scope.isVisible { })
-    }
-
-    @Test
-    fun `isHidden without options`() {
-        every { locator.isHidden(any<Locator.IsHiddenOptions>()) } returns true
-        assertTrue(scope.isHidden())
-    }
-
-    @Test
-    fun `isHidden with options`() {
-        every { locator.isHidden(any<Locator.IsHiddenOptions>()) } returns false
-        assertFalse(scope.isHidden { })
-    }
-
-    @Test
-    fun `isEnabled without options`() {
-        every { locator.isEnabled(any<Locator.IsEnabledOptions>()) } returns true
-        assertTrue(scope.isEnabled())
-    }
-
-    @Test
-    fun `isEnabled with options`() {
-        every { locator.isEnabled(any<Locator.IsEnabledOptions>()) } returns false
-        assertFalse(scope.isEnabled { })
-    }
-
-    @Test
-    fun `isDisabled without options`() {
-        every { locator.isDisabled(any<Locator.IsDisabledOptions>()) } returns true
-        assertTrue(scope.isDisabled())
-    }
-
-    @Test
-    fun `isDisabled with options`() {
-        every { locator.isDisabled(any<Locator.IsDisabledOptions>()) } returns false
-        assertFalse(scope.isDisabled { })
-    }
-
-    @Test
-    fun `isChecked without options`() {
-        every { locator.isChecked(any<Locator.IsCheckedOptions>()) } returns true
-        assertTrue(scope.isChecked())
-    }
-
-    @Test
-    fun `isChecked with options`() {
-        every { locator.isChecked(any<Locator.IsCheckedOptions>()) } returns false
-        assertFalse(scope.isChecked { })
-    }
-
-    @Test
-    fun `isEditable without options`() {
-        every { locator.isEditable(any<Locator.IsEditableOptions>()) } returns true
-        assertTrue(scope.isEditable())
-    }
-
-    @Test
-    fun `isEditable with options`() {
-        every { locator.isEditable(any<Locator.IsEditableOptions>()) } returns false
-        assertFalse(scope.isEditable { })
-    }
-
-    @Test
-    fun `count delegates`() {
-        every { locator.count() } returns 5
-        assertEquals(5, scope.count())
-    }
-
-    // Content
-
-    @Test
-    fun `innerText without options`() {
-        every { locator.innerText(any<Locator.InnerTextOptions>()) } returns "hello"
-        assertEquals("hello", scope.innerText())
-    }
-
-    @Test
-    fun `innerText with options`() {
-        every { locator.innerText(any<Locator.InnerTextOptions>()) } returns "hello"
-        assertEquals("hello", scope.innerText { })
-    }
-
-    @Test
-    fun `innerHTML without options`() {
-        every { locator.innerHTML(any<Locator.InnerHTMLOptions>()) } returns "<b>hello</b>"
-        assertEquals("<b>hello</b>", scope.innerHTML())
-    }
-
-    @Test
-    fun `innerHTML with options`() {
-        every { locator.innerHTML(any<Locator.InnerHTMLOptions>()) } returns "<b>hello</b>"
-        assertEquals("<b>hello</b>", scope.innerHTML { })
-    }
-
-    @Test
-    fun `inputValue without options`() {
-        every { locator.inputValue(any<Locator.InputValueOptions>()) } returns "test"
-        assertEquals("test", scope.inputValue())
-    }
-
-    @Test
-    fun `inputValue with options`() {
-        every { locator.inputValue(any<Locator.InputValueOptions>()) } returns "test"
-        assertEquals("test", scope.inputValue { })
-    }
-
-    @Test
-    fun `getAttribute without options`() {
-        every { locator.getAttribute(eq("href"), any<Locator.GetAttributeOptions>()) } returns "https://example.com"
-        assertEquals("https://example.com", scope.getAttribute("href"))
-    }
-
-    @Test
-    fun `getAttribute with options`() {
-        every { locator.getAttribute(eq("href"), any<Locator.GetAttributeOptions>()) } returns null
-        assertNull(scope.getAttribute("href") { })
-    }
-
-    @Test
-    fun `textContent without options`() {
-        every { locator.textContent(any<Locator.TextContentOptions>()) } returns "text"
-        assertEquals("text", scope.textContent())
-    }
-
-    @Test
-    fun `textContent with options returns null`() {
-        every { locator.textContent(any<Locator.TextContentOptions>()) } returns null
-        assertNull(scope.textContent { })
-    }
-
-    @Test
-    fun `allInnerTexts delegates`() {
-        every { locator.allInnerTexts() } returns listOf("a", "b")
-        assertEquals(listOf("a", "b"), scope.allInnerTexts())
-    }
-
-    @Test
-    fun `allTextContents delegates`() {
-        every { locator.allTextContents() } returns listOf("x", "y")
-        assertEquals(listOf("x", "y"), scope.allTextContents())
-    }
-
-    // Screenshot
-
-    @Test
-    fun `screenshot delegates to locator`() {
-        val bytes = byteArrayOf(1, 2, 3)
-        every { locator.screenshot(any<Locator.ScreenshotOptions>()) } returns bytes
-        val result = scope.screenshot { setQuality(80) }
-        assertEquals(bytes, result)
-    }
-
-    // Raw
-
-    @Test
-    fun `raw returns underlying locator`() {
-        assertSame(locator, scope.raw)
+        scope = LocatorScope(mutableListOf())
+    }
+
+    @Nested
+    inner class Actions {
+        @Test
+        fun `click processes on locator`() {
+            scope.click { }
+            scope.process(locator)
+            verify { locator.click(any<Locator.ClickOptions>()) }
+        }
+
+        @Test
+        fun `click with button`() {
+            scope.click(button = MouseButton.RIGHT) { }
+            scope.process(locator)
+            verify { locator.click(match<Locator.ClickOptions> { true }) }
+        }
+
+        @Test
+        fun `dblclick processes on locator`() {
+            scope.dblclick { }
+            scope.process(locator)
+            verify { locator.dblclick(any<Locator.DblclickOptions>()) }
+        }
+
+        @Test
+        fun `fill processes with value`() {
+            scope.fill("text")
+            scope.process(locator)
+            verify { locator.fill("text", any<Locator.FillOptions>()) }
+        }
+
+        @Test
+        fun `press processes with key`() {
+            scope.press("Enter")
+            scope.process(locator)
+            verify { locator.press("Enter", any<Locator.PressOptions>()) }
+        }
+
+        @Test
+        fun `pressSequentially processes with text`() {
+            scope.pressSequentially("hello")
+            scope.process(locator)
+            verify { locator.pressSequentially("hello", any<Locator.PressSequentiallyOptions>()) }
+        }
+
+        @Test
+        fun `check processes on locator`() {
+            scope.check { }
+            scope.process(locator)
+            verify { locator.check(any<Locator.CheckOptions>()) }
+        }
+
+        @Test
+        fun `uncheck processes on locator`() {
+            scope.uncheck { }
+            scope.process(locator)
+            verify { locator.uncheck(any<Locator.UncheckOptions>()) }
+        }
+
+        @Test
+        fun `hover processes on locator`() {
+            scope.hover { }
+            scope.process(locator)
+            verify { locator.hover(any<Locator.HoverOptions>()) }
+        }
+
+        @Test
+        fun `focus processes on locator`() {
+            scope.focus { }
+            scope.process(locator)
+            verify { locator.focus(any<Locator.FocusOptions>()) }
+        }
+
+        @Test
+        fun `blur processes on locator`() {
+            scope.blur { }
+            scope.process(locator)
+            verify { locator.blur(any<Locator.BlurOptions>()) }
+        }
+
+        @Test
+        fun `clear processes on locator`() {
+            scope.clear { }
+            scope.process(locator)
+            verify { locator.clear(any<Locator.ClearOptions>()) }
+        }
+
+        @Test
+        fun `selectOption with single value`() {
+            every { locator.selectOption(any<Array<String>>(), any<Locator.SelectOptionOptions>()) } returns listOf("value1")
+            val op = scope.selectOption("value1")
+            scope.process(locator)
+            assertEquals(listOf("value1"), op.selected)
+        }
+
+        @Test
+        fun `selectOption with multiple values`() {
+            every { locator.selectOption(any<Array<String>>(), any<Locator.SelectOptionOptions>()) } returns listOf("a", "b")
+            val op = scope.selectOption(listOf("a", "b"))
+            scope.process(locator)
+            assertEquals(listOf("a", "b"), op.selected)
+        }
+    }
+
+    @Nested
+    inner class Chaining {
+        @Test
+        fun `locator narrows and processes children`() {
+            val child = mockk<Locator>(relaxed = true)
+            every { locator.locator(eq("span"), any<Locator.LocatorOptions>()) } returns child
+
+            scope.locator("span") {
+                click { }
+            }
+            scope.process(locator)
+
+            verify { locator.locator("span", any<Locator.LocatorOptions>()) }
+            verify { child.click(any<Locator.ClickOptions>()) }
+        }
+
+        @Test
+        fun `nested locator chains`() {
+            val mid = mockk<Locator>(relaxed = true)
+            val inner = mockk<Locator>(relaxed = true)
+            every { locator.locator(eq(".parent"), any<Locator.LocatorOptions>()) } returns mid
+            every { mid.locator(eq(".child"), any<Locator.LocatorOptions>()) } returns inner
+
+            scope.locator(".parent") {
+                locator(".child") {
+                    fill("hello")
+                }
+            }
+            scope.process(locator)
+
+            verify { locator.locator(".parent", any<Locator.LocatorOptions>()) }
+            verify { mid.locator(".child", any<Locator.LocatorOptions>()) }
+            verify { inner.fill("hello", any<Locator.FillOptions>()) }
+        }
+
+        @Test
+        fun `filter narrows and processes children`() {
+            val filtered = mockk<Locator>(relaxed = true)
+            every { locator.filter(any<Locator.FilterOptions>()) } returns filtered
+
+            scope.filter(hasText = "hello") {
+                click { }
+            }
+            scope.process(locator)
+
+            verify { locator.filter(any<Locator.FilterOptions>()) }
+            verify { filtered.click(any<Locator.ClickOptions>()) }
+        }
+
+        @Test
+        fun `first narrows and processes children`() {
+            val first = mockk<Locator>(relaxed = true)
+            every { locator.first() } returns first
+
+            scope.first {
+                hover { }
+            }
+            scope.process(locator)
+
+            verify { locator.first() }
+            verify { first.hover(any<Locator.HoverOptions>()) }
+        }
+
+        @Test
+        fun `last narrows and processes children`() {
+            val last = mockk<Locator>(relaxed = true)
+            every { locator.last() } returns last
+
+            scope.last {
+                hover { }
+            }
+            scope.process(locator)
+
+            verify { locator.last() }
+            verify { last.hover(any<Locator.HoverOptions>()) }
+        }
+
+        @Test
+        fun `nth narrows and processes children`() {
+            val nth = mockk<Locator>(relaxed = true)
+            every { locator.nth(2) } returns nth
+
+            scope.nth(2) {
+                click { }
+            }
+            scope.process(locator)
+
+            verify { locator.nth(2) }
+            verify { nth.click(any<Locator.ClickOptions>()) }
+        }
+    }
+
+    @Nested
+    inner class GetByChaining {
+        @Test
+        fun `getByRole narrows and processes children`() {
+            val child = mockk<Locator>(relaxed = true)
+            every { locator.getByRole(AriaRole.BUTTON, any<Locator.GetByRoleOptions>()) } returns child
+
+            scope.getByRole(AriaRole.BUTTON, name = "Submit") {
+                click { }
+            }
+            scope.process(locator)
+
+            verify { locator.getByRole(AriaRole.BUTTON, any<Locator.GetByRoleOptions>()) }
+            verify { child.click(any<Locator.ClickOptions>()) }
+        }
+
+        @Test
+        fun `getByText narrows and processes children`() {
+            val child = mockk<Locator>(relaxed = true)
+            every { locator.getByText(eq("Hello"), any<Locator.GetByTextOptions>()) } returns child
+
+            scope.getByText("Hello") {
+                click { }
+            }
+            scope.process(locator)
+
+            verify { locator.getByText("Hello", any<Locator.GetByTextOptions>()) }
+            verify { child.click(any<Locator.ClickOptions>()) }
+        }
+
+        @Test
+        fun `getByLabel narrows and processes children`() {
+            val child = mockk<Locator>(relaxed = true)
+            every { locator.getByLabel(eq("Username"), any<Locator.GetByLabelOptions>()) } returns child
+
+            scope.getByLabel("Username") {
+                fill("john")
+            }
+            scope.process(locator)
+
+            verify { locator.getByLabel("Username", any<Locator.GetByLabelOptions>()) }
+            verify { child.fill("john", any<Locator.FillOptions>()) }
+        }
+
+        @Test
+        fun `getByPlaceholder narrows and processes children`() {
+            val child = mockk<Locator>(relaxed = true)
+            every { locator.getByPlaceholder(eq("Search"), any<Locator.GetByPlaceholderOptions>()) } returns child
+
+            scope.getByPlaceholder("Search") {
+                fill("query")
+            }
+            scope.process(locator)
+
+            verify { locator.getByPlaceholder("Search", any<Locator.GetByPlaceholderOptions>()) }
+            verify { child.fill("query", any<Locator.FillOptions>()) }
+        }
+
+        @Test
+        fun `getByTestId narrows and processes children`() {
+            val child = mockk<Locator>(relaxed = true)
+            every { locator.getByTestId("test-id") } returns child
+
+            scope.getByTestId("test-id") {
+                click { }
+            }
+            scope.process(locator)
+
+            verify { locator.getByTestId("test-id") }
+            verify { child.click(any<Locator.ClickOptions>()) }
+        }
+
+        @Test
+        fun `getByAltText narrows and processes children`() {
+            val child = mockk<Locator>(relaxed = true)
+            every { locator.getByAltText(eq("Logo"), any<Locator.GetByAltTextOptions>()) } returns child
+
+            scope.getByAltText("Logo") {
+                click { }
+            }
+            scope.process(locator)
+
+            verify { locator.getByAltText("Logo", any<Locator.GetByAltTextOptions>()) }
+            verify { child.click(any<Locator.ClickOptions>()) }
+        }
+
+        @Test
+        fun `getByTitle narrows and processes children`() {
+            val child = mockk<Locator>(relaxed = true)
+            every { locator.getByTitle(eq("Help"), any<Locator.GetByTitleOptions>()) } returns child
+
+            scope.getByTitle("Help") {
+                click { }
+            }
+            scope.process(locator)
+
+            verify { locator.getByTitle("Help", any<Locator.GetByTitleOptions>()) }
+            verify { child.click(any<Locator.ClickOptions>()) }
+        }
+    }
+
+    @Nested
+    inner class StateQueries {
+        @Test
+        fun `isVisible stores result`() {
+            every { locator.isVisible(any<Locator.IsVisibleOptions>()) } returns true
+            val op = scope.isVisible()
+            scope.process(locator)
+            assertTrue(op.result)
+        }
+
+        @Test
+        fun `isHidden stores result`() {
+            every { locator.isHidden(any<Locator.IsHiddenOptions>()) } returns true
+            val op = scope.isHidden()
+            scope.process(locator)
+            assertTrue(op.result)
+        }
+
+        @Test
+        fun `isEnabled stores result`() {
+            every { locator.isEnabled(any<Locator.IsEnabledOptions>()) } returns true
+            val op = scope.isEnabled()
+            scope.process(locator)
+            assertTrue(op.result)
+        }
+
+        @Test
+        fun `isDisabled stores result`() {
+            every { locator.isDisabled(any<Locator.IsDisabledOptions>()) } returns false
+            val op = scope.isDisabled()
+            scope.process(locator)
+            assertFalse(op.result)
+        }
+
+        @Test
+        fun `isChecked stores result`() {
+            every { locator.isChecked(any<Locator.IsCheckedOptions>()) } returns true
+            val op = scope.isChecked()
+            scope.process(locator)
+            assertTrue(op.result)
+        }
+
+        @Test
+        fun `isEditable stores result`() {
+            every { locator.isEditable(any<Locator.IsEditableOptions>()) } returns true
+            val op = scope.isEditable()
+            scope.process(locator)
+            assertTrue(op.result)
+        }
+
+        @Test
+        fun `count stores result`() {
+            every { locator.count() } returns 5
+            val op = scope.count()
+            scope.process(locator)
+            assertEquals(5, op.result)
+        }
+    }
+
+    @Nested
+    inner class ContentQueries {
+        @Test
+        fun `innerText stores result`() {
+            every { locator.innerText(any<Locator.InnerTextOptions>()) } returns "hello"
+            val op = scope.innerText()
+            scope.process(locator)
+            assertEquals("hello", op.result)
+        }
+
+        @Test
+        fun `innerHTML stores result`() {
+            every { locator.innerHTML(any<Locator.InnerHTMLOptions>()) } returns "<b>hello</b>"
+            val op = scope.innerHTML()
+            scope.process(locator)
+            assertEquals("<b>hello</b>", op.result)
+        }
+
+        @Test
+        fun `inputValue stores result`() {
+            every { locator.inputValue(any<Locator.InputValueOptions>()) } returns "test"
+            val op = scope.inputValue()
+            scope.process(locator)
+            assertEquals("test", op.result)
+        }
+
+        @Test
+        fun `getAttribute stores result`() {
+            every { locator.getAttribute(eq("href"), any<Locator.GetAttributeOptions>()) } returns "https://example.com"
+            val op = scope.getAttribute("href")
+            scope.process(locator)
+            assertEquals("https://example.com", op.result)
+        }
+
+        @Test
+        fun `getAttribute stores null result`() {
+            every { locator.getAttribute(eq("missing"), any<Locator.GetAttributeOptions>()) } returns null
+            val op = scope.getAttribute("missing")
+            scope.process(locator)
+            assertNull(op.result)
+        }
+
+        @Test
+        fun `textContent stores result`() {
+            every { locator.textContent(any<Locator.TextContentOptions>()) } returns "text"
+            val op = scope.textContent()
+            scope.process(locator)
+            assertEquals("text", op.result)
+        }
+
+        @Test
+        fun `allInnerTexts stores result`() {
+            every { locator.allInnerTexts() } returns listOf("a", "b")
+            val op = scope.allInnerTexts()
+            scope.process(locator)
+            assertEquals(listOf("a", "b"), op.result)
+        }
+
+        @Test
+        fun `allTextContents stores result`() {
+            every { locator.allTextContents() } returns listOf("x", "y")
+            val op = scope.allTextContents()
+            scope.process(locator)
+            assertEquals(listOf("x", "y"), op.result)
+        }
+    }
+
+    @Nested
+    inner class ResolvedLocator {
+        @Test
+        fun `process sets resolvedLocator`() {
+            scope.process(locator)
+            assertEquals(locator, scope.resolvedLocator)
+        }
     }
 }

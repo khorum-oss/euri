@@ -21,21 +21,22 @@ class KeyOperation(
 
     override fun process(locator: Locator) {
         when (type) {
-            Type.PRESS -> locator.press(text, pressOption())
-            Type.PRESS_SEQUENTIALLY -> locator.press(text, pressSequentiallyOption())
+            Type.PRESS -> locator.press(text, pressOptions())
+            Type.PRESS_SEQUENTIALLY -> locator.pressSequentially(text, pressSequentiallyOptions())
             else -> Unit
         }
     }
 
-    private fun pressOption(): Locator.PressOptions = Locator.PressOptions().also {
+    private fun pressOptions(): Locator.PressOptions = Locator.PressOptions().also {
         it.delay = delay
         it.timeout = timeout
     }
 
-    private fun pressSequentiallyOption(): Locator.PressOptions = Locator.PressOptions().also {
-        it.delay = delay
-        it.timeout = timeout
-    }
+    private fun pressSequentiallyOptions(): Locator.PressSequentiallyOptions =
+        Locator.PressSequentiallyOptions().also {
+            it.delay = delay
+            it.timeout = timeout
+        }
 
     enum class Type {
         PRESS,
