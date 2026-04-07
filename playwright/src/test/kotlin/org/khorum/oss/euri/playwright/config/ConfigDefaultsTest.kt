@@ -1,5 +1,8 @@
 package org.khorum.oss.euri.playwright.config
 
+import org.khorum.oss.euri.playwright.enums.BrowserColorScheme
+import org.khorum.oss.euri.playwright.enums.ScreenshotType
+import org.khorum.oss.euri.playwright.enums.WaitUntil
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -109,7 +112,7 @@ class ConfigDefaultsTest {
 
     @Test
     fun `BrowserContextConfig default colorScheme is NO_PREFERENCE`() {
-        assertEquals("NO_PREFERENCE", BrowserContextConfig().colorScheme)
+        assertEquals(BrowserColorScheme.NoPreference, BrowserContextConfig().colorScheme)
     }
 
     @Test
@@ -233,7 +236,7 @@ class ConfigDefaultsTest {
 
     @Test
     fun `NavigationConfig default waitUntil is LOAD`() {
-        assertEquals("LOAD", NavigationConfig(url = "https://example.com").waitUntil)
+        assertEquals(WaitUntil.Load, NavigationConfig(url = "https://example.com").waitUntil)
     }
 
     @Test
@@ -255,7 +258,7 @@ class ConfigDefaultsTest {
 
     @Test
     fun `ScreenshotConfig default type is PNG`() {
-        assertEquals("PNG", ScreenshotConfig().type)
+        assertEquals(ScreenshotType.Png, ScreenshotConfig().type)
     }
 
     @Test

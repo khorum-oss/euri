@@ -6,8 +6,8 @@ import com.microsoft.playwright.Page
 import com.microsoft.playwright.options.Proxy
 import com.microsoft.playwright.options.ScreenSize
 import com.microsoft.playwright.options.ViewportSize
-import com.microsoft.playwright.options.WaitUntilState
 import org.khorum.oss.euri.playwright.config.*
+import org.khorum.oss.euri.playwright.enums.BrowserColorScheme
 import java.nio.file.Paths
 
 fun ProxyConfig.toPlaywright(): Proxy {
@@ -53,10 +53,8 @@ fun BrowserContextConfig.toPlaywright(): Browser.NewContextOptions {
     options.setAcceptDownloads(acceptDownloads)
     if (baseURL.isNotEmpty()) options.setBaseURL(baseURL)
     options.setBypassCSP(bypassCSP)
-    if (colorScheme != "NO_PREFERENCE") {
-        options.setColorScheme(
-            com.microsoft.playwright.options.ColorScheme.valueOf(colorScheme)
-        )
+    if (colorScheme != BrowserColorScheme.NoPreference) {
+        options.setColorScheme(colorScheme.toPlaywright())
     }
     if (deviceScaleFactor != 1.0) options.setDeviceScaleFactor(deviceScaleFactor)
     if (extraHTTPHeaders.isNotEmpty()) options.setExtraHTTPHeaders(extraHTTPHeaders)
@@ -85,7 +83,7 @@ fun BrowserContextConfig.toPlaywright(): Browser.NewContextOptions {
 fun NavigationConfig.toNavigateOptions(): Page.NavigateOptions {
     val options = Page.NavigateOptions()
     options.setTimeout(timeout)
-    options.setWaitUntil(WaitUntilState.valueOf(waitUntil))
+    options.setWaitUntil(waitUntil.toPlaywright())
     if (referer.isNotEmpty()) options.setReferer(referer)
     return options
 }
