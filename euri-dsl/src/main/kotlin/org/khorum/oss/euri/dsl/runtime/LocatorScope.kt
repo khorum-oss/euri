@@ -2,6 +2,7 @@ package org.khorum.oss.euri.dsl.runtime
 
 import com.microsoft.playwright.Locator
 import com.microsoft.playwright.options.MouseButton
+import org.khorum.oss.euri.dsl.common.EuriDsl
 import org.khorum.oss.euri.dsl.enums.Role
 import org.khorum.oss.euri.dsl.runtime.locator.AllInnerTextsOperation
 import org.khorum.oss.euri.dsl.runtime.locator.AllTextContentsOperation
@@ -74,19 +75,17 @@ import org.khorum.oss.euri.dsl.runtime.locator.SetInputFilesOperationDslBuilderS
 import org.khorum.oss.euri.dsl.runtime.locator.TextContentOperation
 import org.khorum.oss.euri.dsl.runtime.locator.TextContentOperationDslBuilder
 import org.khorum.oss.euri.dsl.runtime.locator.TextContentOperationDslBuilderScope
-import org.khorum.oss.konstellation.metaDsl.annotation.GeneratedDsl
-import org.khorum.oss.konstellation.metaDsl.annotation.ListDsl
-import org.khorum.oss.konstellation.metaDsl.annotation.TransientDsl
+import org.khorum.oss.konstellation.metaDsl.annotation.InjectDslMethod
 import java.nio.file.Path
 
-@GeneratedDsl
+@EuriDsl
 class LocatorScope(
-    @ListDsl(withVararg = false, withProvider = false)
     private val options: MutableList<LocatorOperation>
 ) : LocatorOperation {
 
     // ── Actions ──────────────────────────────────────────────────────────
 
+    @InjectDslMethod
     fun click(button: MouseButton = MouseButton.LEFT, block: ClickOperationDslBuilderScope) {
         val builder = ClickOperationDslBuilder()
         builder.button = button
@@ -94,6 +93,7 @@ class LocatorScope(
         options.add(builder.build())
     }
 
+    @InjectDslMethod
     fun dblclick(button: MouseButton = MouseButton.LEFT, block: DoubleClickOperationDslBuilderScope) {
         val builder = DoubleClickOperationDslBuilder()
         builder.button = button
@@ -101,6 +101,7 @@ class LocatorScope(
         options.add(builder.build())
     }
 
+    @InjectDslMethod
     fun fill(value: String, block: FillOperationDslBuilderScope? = null) {
         val optionBuilder = FillOperationDslBuilder()
         block?.invoke(optionBuilder)
@@ -109,6 +110,7 @@ class LocatorScope(
         options.add(option)
     }
 
+    @InjectDslMethod
     fun press(key: String, block: KeyOperationDslBuilderScope? = null) {
         val optionBuilder = KeyOperationDslBuilder()
         block?.invoke(optionBuilder)
@@ -118,6 +120,7 @@ class LocatorScope(
         options.add(option)
     }
 
+    @InjectDslMethod
     fun pressSequentially(text: String, block: KeyOperationDslBuilderScope? = null) {
         val optionBuilder = KeyOperationDslBuilder()
         block?.invoke(optionBuilder)
@@ -127,38 +130,45 @@ class LocatorScope(
         options.add(option)
     }
 
+    @InjectDslMethod
     fun check(block: CheckableOperationDslBuilderScope) {
         val option = CheckableOperationDslBuilder().apply(block).build()
         option.type = CheckableOperation.Type.CHECKED
         options.add(option)
     }
 
+    @InjectDslMethod
     fun uncheck(block: CheckableOperationDslBuilderScope) {
         val option = CheckableOperationDslBuilder().apply(block).build()
         option.type = CheckableOperation.Type.UNCHECKED
         options.add(option)
     }
 
+    @InjectDslMethod
     fun hover(block: HoverOperationDslBuilderScope) {
         val option = HoverOperationDslBuilder().apply(block).build()
         options.add(option)
     }
 
+    @InjectDslMethod
     fun focus(block: FocusOperationDslBuilderScope) {
         val option = FocusOperationDslBuilder().apply(block).build()
         options.add(option)
     }
 
+    @InjectDslMethod
     fun blur(block: BlurOperationDslBuilderScope) {
         val option = BlurOperationDslBuilder().apply(block).build()
         options.add(option)
     }
 
+    @InjectDslMethod
     fun clear(block: ClearOperationDslBuilderScope) {
         val option = ClearOperationDslBuilder().apply(block).build()
         options.add(option)
     }
 
+    @InjectDslMethod
     fun selectOption(value: String, block: SelectOptionOperationDslBuilderScope? = null): SelectOptionOperation {
         val optionBuilder = SelectOptionOperationDslBuilder()
         block?.invoke(optionBuilder)
@@ -168,6 +178,7 @@ class LocatorScope(
         return option
     }
 
+    @InjectDslMethod
     fun selectOption(values: List<String>, block: SelectOptionOperationDslBuilderScope? = null): SelectOptionOperation {
         val optionBuilder = SelectOptionOperationDslBuilder()
         block?.invoke(optionBuilder)
@@ -177,6 +188,7 @@ class LocatorScope(
         return option
     }
 
+    @InjectDslMethod
     fun setInputFilesByPath(files: List<Path>, block: SetInputFilesOperationDslBuilderScope? = null) {
         val optionBuilder = SetInputFilesOperationDslBuilder()
         block?.invoke(optionBuilder)
@@ -185,6 +197,7 @@ class LocatorScope(
         options.add(option)
     }
 
+    @InjectDslMethod
     fun setInputFilesByFilename(fileName: List<String>, block: SetInputFilesOperationDslBuilderScope? = null) {
         val optionBuilder = SetInputFilesOperationDslBuilder()
         block?.invoke(optionBuilder)
@@ -193,6 +206,7 @@ class LocatorScope(
         options.add(option)
     }
 
+    @InjectDslMethod
     fun dragTo(target: LocatorScope, block: DragToOperationDslBuilderScope? = null) {
         val optionBuilder = DragToOperationDslBuilder()
         block?.let { optionBuilder.apply(it) }
@@ -203,6 +217,7 @@ class LocatorScope(
 
     // ── Chaining: locator / filter ───────────────────────────────────────
 
+    @InjectDslMethod
     fun locator(selector: String, block: LocatorScope.() -> Unit) {
         val childScope = LocatorScope(mutableListOf()).apply(block)
         val option = SelectorOperationDslBuilder().build()
@@ -211,6 +226,7 @@ class LocatorScope(
         options.add(option)
     }
 
+    @InjectDslMethod
     fun filter(
         hasText: Any? = null,
         hasNotText: Any? = null,
@@ -227,16 +243,19 @@ class LocatorScope(
 
     // ── Chaining: positional ─────────────────────────────────────────────
 
+    @InjectDslMethod
     fun first(block: LocatorScope.() -> Unit) {
         val childScope = LocatorScope(mutableListOf()).apply(block)
         options.add(ChainOperation({ it.first() }, childScope))
     }
 
+    @InjectDslMethod
     fun last(block: LocatorScope.() -> Unit) {
         val childScope = LocatorScope(mutableListOf()).apply(block)
         options.add(ChainOperation({ it.last() }, childScope))
     }
 
+    @InjectDslMethod
     fun nth(index: Int, block: LocatorScope.() -> Unit) {
         val childScope = LocatorScope(mutableListOf()).apply(block)
         options.add(ChainOperation({ it.nth(index) }, childScope))
@@ -244,11 +263,13 @@ class LocatorScope(
 
     // ── Chaining: combinators ────────────────────────────────────────────
 
+    @InjectDslMethod
     fun and(other: LocatorScope, block: LocatorScope.() -> Unit) {
         val childScope = LocatorScope(mutableListOf()).apply(block)
         options.add(ChainOperation({ it.and(other.resolvedLocator!!) }, childScope))
     }
 
+    @InjectDslMethod
     fun or(other: LocatorScope, block: LocatorScope.() -> Unit) {
         val childScope = LocatorScope(mutableListOf()).apply(block)
         options.add(ChainOperation({ it.or(other.resolvedLocator!!) }, childScope))
@@ -256,6 +277,7 @@ class LocatorScope(
 
     // ── Chaining: getBy* ─────────────────────────────────────────────────
 
+    @InjectDslMethod
     fun getByRole(
         role: Role,
         checked: Boolean? = null,
@@ -286,6 +308,7 @@ class LocatorScope(
         options.add(operation)
     }
 
+    @InjectDslMethod
     fun getByText(text: String, exact: Boolean = false, block: LocatorScope.() -> Unit = {}) {
         val childScope = LocatorScope(mutableListOf()).apply(block)
         val operation = GetByTextOperation(exact = exact)
@@ -294,6 +317,7 @@ class LocatorScope(
         options.add(operation)
     }
 
+    @InjectDslMethod
     fun getByLabel(text: String, exact: Boolean = false, block: LocatorScope.() -> Unit = {}) {
         val childScope = LocatorScope(mutableListOf()).apply(block)
         val operation = GetByLabelOperation(exact = exact)
@@ -302,6 +326,7 @@ class LocatorScope(
         options.add(operation)
     }
 
+    @InjectDslMethod
     fun getByPlaceholder(text: String, exact: Boolean = false, block: LocatorScope.() -> Unit = {}) {
         val childScope = LocatorScope(mutableListOf()).apply(block)
         val operation = GetByPlaceholderOperation(exact = exact)
@@ -310,11 +335,13 @@ class LocatorScope(
         options.add(operation)
     }
 
+    @InjectDslMethod
     fun getByTestId(testId: String, block: LocatorScope.() -> Unit = {}) {
         val childScope = LocatorScope(mutableListOf()).apply(block)
         options.add(ChainOperation({ it.getByTestId(testId) }, childScope))
     }
 
+    @InjectDslMethod
     fun getByAltText(text: String, exact: Boolean = false, block: LocatorScope.() -> Unit = {}) {
         val childScope = LocatorScope(mutableListOf()).apply(block)
         val operation = GetByAltTextOperation(exact = exact)
@@ -323,6 +350,7 @@ class LocatorScope(
         options.add(operation)
     }
 
+    @InjectDslMethod
     fun getByTitle(text: String, exact: Boolean = false, block: LocatorScope.() -> Unit = {}) {
         val childScope = LocatorScope(mutableListOf()).apply(block)
         val operation = GetByTitleOperation(exact = exact)
@@ -333,6 +361,7 @@ class LocatorScope(
 
     // ── State queries ────────────────────────────────────────────────────
 
+    @InjectDslMethod
     fun isVisible(block: IsVisibleOperationDslBuilderScope? = null): IsVisibleOperation {
         val optionBuilder = IsVisibleOperationDslBuilder()
         block?.invoke(optionBuilder)
@@ -341,6 +370,7 @@ class LocatorScope(
         return option
     }
 
+    @InjectDslMethod
     fun isHidden(block: IsHiddenOperationDslBuilderScope? = null): IsHiddenOperation {
         val optionBuilder = IsHiddenOperationDslBuilder()
         block?.invoke(optionBuilder)
@@ -349,6 +379,7 @@ class LocatorScope(
         return option
     }
 
+    @InjectDslMethod
     fun isEnabled(block: IsEnabledOperationDslBuilderScope? = null): IsEnabledOperation {
         val optionBuilder = IsEnabledOperationDslBuilder()
         block?.invoke(optionBuilder)
@@ -357,6 +388,7 @@ class LocatorScope(
         return option
     }
 
+    @InjectDslMethod
     fun isDisabled(block: IsDisabledOperationDslBuilderScope? = null): IsDisabledOperation {
         val optionBuilder = IsDisabledOperationDslBuilder()
         block?.invoke(optionBuilder)
@@ -365,6 +397,7 @@ class LocatorScope(
         return option
     }
 
+    @InjectDslMethod
     fun isChecked(block: IsCheckedOperationDslBuilderScope? = null): IsCheckedOperation {
         val optionBuilder = IsCheckedOperationDslBuilder()
         block?.invoke(optionBuilder)
@@ -373,6 +406,7 @@ class LocatorScope(
         return option
     }
 
+    @InjectDslMethod
     fun isEditable(block: IsEditableOperationDslBuilderScope? = null): IsEditableOperation {
         val optionBuilder = IsEditableOperationDslBuilder()
         block?.invoke(optionBuilder)
@@ -381,6 +415,7 @@ class LocatorScope(
         return option
     }
 
+    @InjectDslMethod
     fun count(): CountOperation {
         val option = CountOperation()
         options.add(option)
@@ -389,6 +424,7 @@ class LocatorScope(
 
     // ── Content queries ──────────────────────────────────────────────────
 
+    @InjectDslMethod
     fun innerText(block: InnerTextOperationDslBuilderScope? = null): InnerTextOperation {
         val optionBuilder = InnerTextOperationDslBuilder()
         block?.invoke(optionBuilder)
@@ -397,6 +433,7 @@ class LocatorScope(
         return option
     }
 
+    @InjectDslMethod
     fun innerHTML(block: InnerHtmlOperationDslBuilderScope? = null): InnerHtmlOperation {
         val optionBuilder = InnerHtmlOperationDslBuilder()
         block?.invoke(optionBuilder)
@@ -405,6 +442,7 @@ class LocatorScope(
         return option
     }
 
+    @InjectDslMethod
     fun inputValue(block: InputValueOperationDslBuilderScope? = null): InputValueOperation {
         val optionBuilder = InputValueOperationDslBuilder()
         block?.invoke(optionBuilder)
@@ -413,6 +451,7 @@ class LocatorScope(
         return option
     }
 
+    @InjectDslMethod
     fun getAttribute(name: String, block: GetAttributeOperationDslBuilderScope? = null): GetAttributeOperation {
         val optionBuilder = GetAttributeOperationDslBuilder()
         block?.invoke(optionBuilder)
@@ -422,6 +461,7 @@ class LocatorScope(
         return option
     }
 
+    @InjectDslMethod
     fun textContent(block: TextContentOperationDslBuilderScope? = null): TextContentOperation {
         val optionBuilder = TextContentOperationDslBuilder()
         block?.invoke(optionBuilder)
@@ -430,12 +470,14 @@ class LocatorScope(
         return option
     }
 
+    @InjectDslMethod
     fun allInnerTexts(): AllInnerTextsOperation {
         val option = AllInnerTextsOperation()
         options.add(option)
         return option
     }
 
+    @InjectDslMethod
     fun allTextContents(): AllTextContentsOperation {
         val option = AllTextContentsOperation()
         options.add(option)
@@ -444,7 +486,6 @@ class LocatorScope(
 
     // ── Execution ────────────────────────────────────────────────────────
 
-    @TransientDsl
     internal var resolvedLocator: Locator? = null
 
     override fun process(locator: Locator) {
