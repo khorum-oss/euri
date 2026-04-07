@@ -4,6 +4,8 @@ import com.microsoft.playwright.*
 import com.microsoft.playwright.options.AriaRole
 import com.microsoft.playwright.options.LoadState
 import io.mockk.*
+import org.khorum.oss.euri.playwright.enums.PageLoadState
+import org.khorum.oss.euri.playwright.enums.Role
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -149,7 +151,7 @@ class PageScopeTest {
     fun `getByRole delegates to page`() {
         val locator = mockk<Locator>(relaxed = true)
         every { page.getByRole(AriaRole.BUTTON, any<Page.GetByRoleOptions>()) } returns locator
-        val result = scope.getByRole(AriaRole.BUTTON)
+        val result = scope.getByRole(Role.Button)
         assertEquals(locator, result.raw)
     }
 
@@ -157,7 +159,7 @@ class PageScopeTest {
     fun `getByRole with options`() {
         val locator = mockk<Locator>(relaxed = true)
         every { page.getByRole(AriaRole.BUTTON, any<Page.GetByRoleOptions>()) } returns locator
-        val result = scope.getByRole(AriaRole.BUTTON) { setName("Submit") }
+        val result = scope.getByRole(Role.Button) { setName("Submit") }
         assertEquals(locator, result.raw)
     }
 
@@ -355,7 +357,7 @@ class PageScopeTest {
     @Test
     fun `waitForLoadState with state`() {
         every { page.waitForLoadState(LoadState.NETWORKIDLE) } just runs
-        scope.waitForLoadState(LoadState.NETWORKIDLE)
+        scope.waitForLoadState(PageLoadState.NetworkIdle)
         verify { page.waitForLoadState(LoadState.NETWORKIDLE) }
     }
 

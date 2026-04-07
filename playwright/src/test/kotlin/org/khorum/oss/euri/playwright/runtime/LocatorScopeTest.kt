@@ -2,6 +2,7 @@ package org.khorum.oss.euri.playwright.runtime
 
 import com.microsoft.playwright.Locator
 import com.microsoft.playwright.options.AriaRole
+import org.khorum.oss.euri.playwright.enums.Role
 import io.mockk.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -249,7 +250,7 @@ class LocatorScopeTest {
     fun `getByRole delegates to locator`() {
         val child = mockk<Locator>(relaxed = true)
         every { locator.getByRole(AriaRole.BUTTON, any<Locator.GetByRoleOptions>()) } returns child
-        val result = scope.getByRole(AriaRole.BUTTON)
+        val result = scope.getByRole(Role.Button)
         assertEquals(child, result.raw)
     }
 
@@ -257,7 +258,7 @@ class LocatorScopeTest {
     fun `getByRole with options`() {
         val child = mockk<Locator>(relaxed = true)
         every { locator.getByRole(AriaRole.BUTTON, any<Locator.GetByRoleOptions>()) } returns child
-        scope.getByRole(AriaRole.BUTTON) { setName("Submit") }
+        scope.getByRole(Role.Button) { setName("Submit") }
         verify { locator.getByRole(AriaRole.BUTTON, any<Locator.GetByRoleOptions>()) }
     }
 

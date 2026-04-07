@@ -4,6 +4,7 @@ import com.microsoft.playwright.Frame
 import com.microsoft.playwright.Locator
 import com.microsoft.playwright.options.AriaRole
 import io.mockk.*
+import org.khorum.oss.euri.playwright.enums.Role
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -32,7 +33,7 @@ class FrameScopeTest {
     fun `getByRole delegates to frame`() {
         val locator = mockk<Locator>(relaxed = true)
         every { frame.getByRole(AriaRole.BUTTON, any<Frame.GetByRoleOptions>()) } returns locator
-        val result = scope.getByRole(AriaRole.BUTTON)
+        val result = scope.getByRole(Role.Button)
         assertEquals(locator, result.raw)
     }
 
@@ -40,7 +41,7 @@ class FrameScopeTest {
     fun `getByRole with options`() {
         val locator = mockk<Locator>(relaxed = true)
         every { frame.getByRole(AriaRole.BUTTON, any<Frame.GetByRoleOptions>()) } returns locator
-        scope.getByRole(AriaRole.BUTTON) { setName("Submit") }
+        scope.getByRole(Role.Button) { setName("Submit") }
         verify { frame.getByRole(AriaRole.BUTTON, any<Frame.GetByRoleOptions>()) }
     }
 

@@ -8,6 +8,7 @@ import org.khorum.oss.euri.dsl.common.EuriDsl
 import org.khorum.oss.euri.playwright.config.BrowserContextConfig
 import org.khorum.oss.euri.playwright.config.BrowserLaunchConfig
 import org.khorum.oss.euri.playwright.mapping.toPlaywright
+import org.khorum.oss.konstellation.metaDsl.annotation.InjectDslMethod
 
 @EuriDsl
 class PlaywrightDsl {
@@ -17,10 +18,16 @@ class PlaywrightDsl {
     private var contextActions: MutableList<BrowserContextScope.() -> Unit> = mutableListOf()
     private var pageActions: MutableList<PageScope.() -> Unit> = mutableListOf()
 
+    @InjectDslMethod
     fun chromium() { browserTypeName = "chromium" }
+
+    @InjectDslMethod
     fun firefox() { browserTypeName = "firefox" }
+
+    @InjectDslMethod
     fun webkit() { browserTypeName = "webkit" }
 
+    @InjectDslMethod
     fun launch(block: BrowserType.LaunchOptions.() -> Unit) {
         val options = BrowserType.LaunchOptions()
         block(options)
@@ -29,6 +36,7 @@ class PlaywrightDsl {
 
     private var launchOptions: BrowserType.LaunchOptions? = null
 
+    @InjectDslMethod
     fun context(block: Browser.NewContextOptions.() -> Unit) {
         val options = Browser.NewContextOptions()
         block(options)
@@ -37,10 +45,12 @@ class PlaywrightDsl {
 
     private var contextOptions: Browser.NewContextOptions? = null
 
+    @InjectDslMethod
     fun contextScope(block: BrowserContextScope.() -> Unit) {
         contextActions.add(block)
     }
 
+    @InjectDslMethod
     fun page(block: PageScope.() -> Unit) {
         pageActions.add(block)
     }

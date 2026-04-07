@@ -1,8 +1,10 @@
 package org.khorum.oss.euri.playwright.config
 
+import org.khorum.oss.euri.playwright.enums.BrowserColorScheme
 import org.khorum.oss.konstellation.metaDsl.annotation.GeneratedDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.ListDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.MapDsl
+import org.khorum.oss.konstellation.metaDsl.annotation.defaults.DefaultEnum
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.DefaultValue
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultEmptyList
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultEmptyMap
@@ -15,7 +17,7 @@ data class BrowserContextConfig(
     @DefaultTrue val acceptDownloads: Boolean = true,
     @DefaultEmptyString val baseURL: String = "",
     @DefaultFalse val bypassCSP: Boolean = false,
-    @DefaultValue("NO_PREFERENCE") val colorScheme: String = "NO_PREFERENCE",
+    @DefaultEnum(value = "NoPreference", packageName = "org.khorum.oss.euri.playwright.enums", className = "BrowserColorScheme") val colorScheme: BrowserColorScheme = BrowserColorScheme.NoPreference,
     @DefaultValue("1.0") val deviceScaleFactor: Double = 1.0,
     @DefaultEmptyMap @MapDsl val extraHTTPHeaders: Map<String, String> = emptyMap(),
     @DefaultFalse val hasTouch: Boolean = false,
