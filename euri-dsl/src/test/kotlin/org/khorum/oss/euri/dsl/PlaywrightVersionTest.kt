@@ -171,4 +171,32 @@ class PlaywrightVersionTest {
         method.isAccessible = true
         assertFalse(method.invoke(PlaywrightVersion, "1.43.9", "1.44.0") as Boolean)
     }
+
+    @Test
+    fun `isVersionGreaterOrEqual returns true for greater patch version`() {
+        val method = PlaywrightVersion::class.java.getDeclaredMethod(
+            "isVersionGreaterOrEqual", String::class.java, String::class.java
+        )
+        method.isAccessible = true
+        assertTrue(method.invoke(PlaywrightVersion, "1.44.1", "1.44.0") as Boolean)
+    }
+
+    @Test
+    fun `isVersionGreaterOrEqual returns false for lesser patch version`() {
+        val method = PlaywrightVersion::class.java.getDeclaredMethod(
+            "isVersionGreaterOrEqual", String::class.java, String::class.java
+        )
+        method.isAccessible = true
+        assertFalse(method.invoke(PlaywrightVersion, "1.44.0", "1.44.1") as Boolean)
+    }
+
+    @Test
+    fun `isVersionGreaterOrEqual with shorter actual version`() {
+        val method = PlaywrightVersion::class.java.getDeclaredMethod(
+            "isVersionGreaterOrEqual", String::class.java, String::class.java
+        )
+        method.isAccessible = true
+        assertFalse(method.invoke(PlaywrightVersion, "1.43", "1.44.0") as Boolean)
+    }
+
 }

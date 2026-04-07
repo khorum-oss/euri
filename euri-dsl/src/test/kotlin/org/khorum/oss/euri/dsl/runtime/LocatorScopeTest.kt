@@ -513,6 +513,280 @@ class LocatorScopeTest {
     }
 
     @Nested
+    inner class OptionalBlocks {
+        @Test
+        fun `fill with explicit block`() {
+            scope.fill("text") { force() }
+            scope.process(locator)
+            verify { locator.fill("text", any<Locator.FillOptions>()) }
+        }
+
+        @Test
+        fun `press with explicit block`() {
+            scope.press("Enter") { timeout = 5000.0 }
+            scope.process(locator)
+            verify { locator.press("Enter", any<Locator.PressOptions>()) }
+        }
+
+        @Test
+        fun `pressSequentially with explicit block`() {
+            scope.pressSequentially("hello") { timeout = 5000.0 }
+            scope.process(locator)
+            verify { locator.pressSequentially("hello", any<Locator.PressSequentiallyOptions>()) }
+        }
+
+        @Test
+        fun `selectOption single value with explicit block`() {
+            every { locator.selectOption(any<Array<String>>(), any<Locator.SelectOptionOptions>()) } returns listOf("v")
+            scope.selectOption("v") { force() }
+            scope.process(locator)
+            verify { locator.selectOption(any<Array<String>>(), any<Locator.SelectOptionOptions>()) }
+        }
+
+        @Test
+        fun `selectOption multiple values with explicit block`() {
+            every { locator.selectOption(any<Array<String>>(), any<Locator.SelectOptionOptions>()) } returns listOf("a", "b")
+            scope.selectOption(listOf("a", "b")) { force() }
+            scope.process(locator)
+            verify { locator.selectOption(any<Array<String>>(), any<Locator.SelectOptionOptions>()) }
+        }
+
+        @Test
+        fun `setInputFilesByPath with explicit block`() {
+            scope.setInputFilesByPath(listOf(java.nio.file.Path.of("/tmp/f.txt"))) { timeout = 1000.0 }
+            scope.process(locator)
+            verify { locator.setInputFiles(any<Array<java.nio.file.Path>>(), any<Locator.SetInputFilesOptions>()) }
+        }
+
+        @Test
+        fun `setInputFilesByFilename with explicit block`() {
+            scope.setInputFilesByFilename(listOf("f.txt")) { timeout = 1000.0 }
+            scope.process(locator)
+            verify { locator.setInputFiles(any<Array<java.nio.file.Path>>(), any<Locator.SetInputFilesOptions>()) }
+        }
+
+        @Test
+        fun `dragTo with explicit block`() {
+            val targetLocator = mockk<Locator>(relaxed = true)
+            val targetScope = LocatorScope(mutableListOf())
+            targetScope.process(targetLocator)
+            scope.dragTo(targetScope) { force() }
+            scope.process(locator)
+            verify { locator.dragTo(targetLocator, any<Locator.DragToOptions>()) }
+        }
+
+        @Test
+        fun `isVisible with explicit block`() {
+            every { locator.isVisible(any<Locator.IsVisibleOptions>()) } returns true
+            val op = scope.isVisible { }
+            scope.process(locator)
+            assertTrue(op.result)
+        }
+
+        @Test
+        fun `isHidden with explicit block`() {
+            every { locator.isHidden(any<Locator.IsHiddenOptions>()) } returns true
+            val op = scope.isHidden { }
+            scope.process(locator)
+            assertTrue(op.result)
+        }
+
+        @Test
+        fun `isEnabled with explicit block`() {
+            every { locator.isEnabled(any<Locator.IsEnabledOptions>()) } returns true
+            val op = scope.isEnabled { timeout = 5000.0 }
+            scope.process(locator)
+            assertTrue(op.result)
+        }
+
+        @Test
+        fun `isDisabled with explicit block`() {
+            every { locator.isDisabled(any<Locator.IsDisabledOptions>()) } returns true
+            val op = scope.isDisabled { timeout = 5000.0 }
+            scope.process(locator)
+            assertTrue(op.result)
+        }
+
+        @Test
+        fun `isChecked with explicit block`() {
+            every { locator.isChecked(any<Locator.IsCheckedOptions>()) } returns true
+            val op = scope.isChecked { timeout = 5000.0 }
+            scope.process(locator)
+            assertTrue(op.result)
+        }
+
+        @Test
+        fun `isEditable with explicit block`() {
+            every { locator.isEditable(any<Locator.IsEditableOptions>()) } returns true
+            val op = scope.isEditable { timeout = 5000.0 }
+            scope.process(locator)
+            assertTrue(op.result)
+        }
+
+        @Test
+        fun `innerText with explicit block`() {
+            every { locator.innerText(any<Locator.InnerTextOptions>()) } returns "text"
+            val op = scope.innerText { timeout = 5000.0 }
+            scope.process(locator)
+            assertEquals("text", op.result)
+        }
+
+        @Test
+        fun `innerHTML with explicit block`() {
+            every { locator.innerHTML(any<Locator.InnerHTMLOptions>()) } returns "<b>hi</b>"
+            val op = scope.innerHTML { timeout = 5000.0 }
+            scope.process(locator)
+            assertEquals("<b>hi</b>", op.result)
+        }
+
+        @Test
+        fun `inputValue with explicit block`() {
+            every { locator.inputValue(any<Locator.InputValueOptions>()) } returns "val"
+            val op = scope.inputValue { timeout = 5000.0 }
+            scope.process(locator)
+            assertEquals("val", op.result)
+        }
+
+        @Test
+        fun `getAttribute with explicit block`() {
+            every { locator.getAttribute(eq("href"), any<Locator.GetAttributeOptions>()) } returns "url"
+            val op = scope.getAttribute("href") { timeout = 5000.0 }
+            scope.process(locator)
+            assertEquals("url", op.result)
+        }
+
+        @Test
+        fun `textContent with explicit block`() {
+            every { locator.textContent(any<Locator.TextContentOptions>()) } returns "content"
+            val op = scope.textContent { timeout = 5000.0 }
+            scope.process(locator)
+            assertEquals("content", op.result)
+        }
+    }
+
+    @Nested
+    inner class GetByWithRoleOptions {
+        @Test
+        fun `getByRole with all parameters`() {
+            val child = mockk<Locator>(relaxed = true)
+            every { locator.getByRole(com.microsoft.playwright.options.AriaRole.CHECKBOX, any<Locator.GetByRoleOptions>()) } returns child
+
+            scope.getByRole(
+                Role.Checkbox,
+                checked = true,
+                disabled = false,
+                exact = true,
+                expanded = false,
+                includeHidden = true,
+                level = 3,
+                name = "Accept",
+                pressed = false,
+                selected = true
+            ) {
+                click { }
+            }
+            scope.process(locator)
+
+            verify { locator.getByRole(com.microsoft.playwright.options.AriaRole.CHECKBOX, any<Locator.GetByRoleOptions>()) }
+            verify { child.click(any<Locator.ClickOptions>()) }
+        }
+
+        @Test
+        fun `getByRole with only role uses defaults`() {
+            val child = mockk<Locator>(relaxed = true)
+            every { locator.getByRole(com.microsoft.playwright.options.AriaRole.LINK, any<Locator.GetByRoleOptions>()) } returns child
+
+            scope.getByRole(Role.Link)
+            scope.process(locator)
+
+            verify { locator.getByRole(com.microsoft.playwright.options.AriaRole.LINK, any<Locator.GetByRoleOptions>()) }
+        }
+    }
+
+    @Nested
+    inner class DefaultParameterPaths {
+        @Test
+        fun `filter without hasText or hasNotText`() {
+            val filtered = mockk<Locator>(relaxed = true)
+            every { locator.filter(any<Locator.FilterOptions>()) } returns filtered
+
+            scope.filter {
+                click { }
+            }
+            scope.process(locator)
+
+            verify { locator.filter(any<Locator.FilterOptions>()) }
+            verify { filtered.click(any<Locator.ClickOptions>()) }
+        }
+
+        @Test
+        fun `getByTestId without explicit block`() {
+            val child = mockk<Locator>(relaxed = true)
+            every { locator.getByTestId("my-id") } returns child
+
+            scope.getByTestId("my-id")
+            scope.process(locator)
+
+            verify { locator.getByTestId("my-id") }
+        }
+
+        @Test
+        fun `getByText without explicit block`() {
+            val child = mockk<Locator>(relaxed = true)
+            every { locator.getByText(eq("text"), any<Locator.GetByTextOptions>()) } returns child
+
+            scope.getByText("text")
+            scope.process(locator)
+
+            verify { locator.getByText("text", any<Locator.GetByTextOptions>()) }
+        }
+
+        @Test
+        fun `getByLabel without explicit block`() {
+            val child = mockk<Locator>(relaxed = true)
+            every { locator.getByLabel(eq("lbl"), any<Locator.GetByLabelOptions>()) } returns child
+
+            scope.getByLabel("lbl")
+            scope.process(locator)
+
+            verify { locator.getByLabel("lbl", any<Locator.GetByLabelOptions>()) }
+        }
+
+        @Test
+        fun `getByPlaceholder without explicit block`() {
+            val child = mockk<Locator>(relaxed = true)
+            every { locator.getByPlaceholder(eq("ph"), any<Locator.GetByPlaceholderOptions>()) } returns child
+
+            scope.getByPlaceholder("ph")
+            scope.process(locator)
+
+            verify { locator.getByPlaceholder("ph", any<Locator.GetByPlaceholderOptions>()) }
+        }
+
+        @Test
+        fun `getByAltText without explicit block`() {
+            val child = mockk<Locator>(relaxed = true)
+            every { locator.getByAltText(eq("alt"), any<Locator.GetByAltTextOptions>()) } returns child
+
+            scope.getByAltText("alt")
+            scope.process(locator)
+
+            verify { locator.getByAltText("alt", any<Locator.GetByAltTextOptions>()) }
+        }
+
+        @Test
+        fun `getByTitle without explicit block`() {
+            val child = mockk<Locator>(relaxed = true)
+            every { locator.getByTitle(eq("title"), any<Locator.GetByTitleOptions>()) } returns child
+
+            scope.getByTitle("title")
+            scope.process(locator)
+
+            verify { locator.getByTitle("title", any<Locator.GetByTitleOptions>()) }
+        }
+    }
+
+    @Nested
     inner class ResolvedLocator {
         @Test
         fun `process sets resolvedLocator`() {
