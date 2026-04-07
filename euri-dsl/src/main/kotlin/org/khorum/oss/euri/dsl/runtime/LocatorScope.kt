@@ -277,6 +277,7 @@ class LocatorScope(
 
     // ── Chaining: getBy* ─────────────────────────────────────────────────
 
+    @Suppress("LongParameterList")
     @InjectDslMethod
     fun getByRole(
         role: Role,
