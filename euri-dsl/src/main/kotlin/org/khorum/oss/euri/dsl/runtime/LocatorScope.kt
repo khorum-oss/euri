@@ -1,8 +1,8 @@
 package org.khorum.oss.euri.dsl.runtime
 
 import com.microsoft.playwright.Locator
-import com.microsoft.playwright.options.AriaRole
 import com.microsoft.playwright.options.MouseButton
+import org.khorum.oss.euri.dsl.enums.Role
 import org.khorum.oss.euri.dsl.runtime.locator.AllInnerTextsOperation
 import org.khorum.oss.euri.dsl.runtime.locator.AllTextContentsOperation
 import org.khorum.oss.euri.dsl.runtime.locator.BlurOperationDslBuilder
@@ -257,7 +257,7 @@ class LocatorScope(
     // ── Chaining: getBy* ─────────────────────────────────────────────────
 
     fun getByRole(
-        role: AriaRole,
+        role: Role,
         checked: Boolean? = null,
         disabled: Boolean? = null,
         exact: Boolean? = null,

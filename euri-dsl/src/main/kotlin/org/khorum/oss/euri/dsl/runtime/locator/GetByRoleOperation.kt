@@ -1,7 +1,7 @@
 package org.khorum.oss.euri.dsl.runtime.locator
 
 import com.microsoft.playwright.Locator
-import com.microsoft.playwright.options.AriaRole
+import org.khorum.oss.euri.dsl.enums.Role
 import org.khorum.oss.euri.dsl.runtime.LocatorScope
 import org.khorum.oss.konstellation.metaDsl.annotation.GeneratedDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.TransientDsl
@@ -19,7 +19,7 @@ class GetByRoleOperation(
     val selected: Boolean? = null
 ) : LocatorOperation {
     @TransientDsl
-    internal var role: AriaRole? = null
+    internal var role: Role? = null
 
     @TransientDsl
     internal var childScope: LocatorScope? = null
@@ -36,7 +36,7 @@ class GetByRoleOperation(
         pressed?.let { options.setPressed(it) }
         selected?.let { options.setSelected(it) }
 
-        val narrowed = locator.getByRole(role, options)
+        val narrowed = locator.getByRole(role?.toPlaywright(), options)
         childScope?.process(narrowed)
     }
 }

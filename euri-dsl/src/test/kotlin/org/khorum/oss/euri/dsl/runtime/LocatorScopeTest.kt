@@ -3,6 +3,7 @@ package org.khorum.oss.euri.dsl.runtime
 import com.microsoft.playwright.Locator
 import com.microsoft.playwright.options.AriaRole
 import com.microsoft.playwright.options.MouseButton
+import org.khorum.oss.euri.dsl.enums.Role
 import io.mockk.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -225,7 +226,7 @@ class LocatorScopeTest {
             val child = mockk<Locator>(relaxed = true)
             every { locator.getByRole(AriaRole.BUTTON, any<Locator.GetByRoleOptions>()) } returns child
 
-            scope.getByRole(AriaRole.BUTTON, name = "Submit") {
+            scope.getByRole(Role.Button, name = "Submit") {
                 click { }
             }
             scope.process(locator)
