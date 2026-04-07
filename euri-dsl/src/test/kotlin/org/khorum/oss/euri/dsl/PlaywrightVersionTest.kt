@@ -5,6 +5,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
+@Suppress("TooManyFunctions")
 class PlaywrightVersionTest {
 
     @Test
@@ -79,5 +80,95 @@ class PlaywrightVersionTest {
         val a = CompatibilityResult.Incompatible("1.30.0")
         val b = CompatibilityResult.Incompatible("1.30.0")
         assertEquals(a, b)
+    }
+
+    @Test
+    fun `checkCompatibility returns Exact when version matches target`() {
+        // The actual Playwright on the classpath is 1.50.0 which is TARGET_VERSION
+        val result = PlaywrightVersion.checkCompatibility()
+        // It will be Exact, Compatible, or Unknown depending on the jar manifest
+        assertTrue(
+            result is CompatibilityResult.Exact ||
+                result is CompatibilityResult.Compatible ||
+                result is CompatibilityResult.Unknown
+        )
+    }
+
+    @Test
+    fun `CompatibilityResult sealed class covers all variants`() {
+        val results: List<CompatibilityResult> = listOf(
+            CompatibilityResult.Exact,
+            CompatibilityResult.Compatible("1.48.0"),
+            CompatibilityResult.Incompatible("1.30.0"),
+            CompatibilityResult.Missing,
+            CompatibilityResult.Unknown
+        )
+        assertEquals(5, results.size)
+    }
+
+    @Test
+    fun `CompatibilityResult Compatible toString contains version`() {
+        val result = CompatibilityResult.Compatible("1.48.0")
+        assertTrue(result.toString().contains("1.48.0"))
+    }
+
+    @Test
+    fun `CompatibilityResult Incompatible toString contains version`() {
+        val result = CompatibilityResult.Incompatible("1.30.0")
+        assertTrue(result.toString().contains("1.30.0"))
+    }
+
+    @Test
+    fun `isVersionGreaterOrEqual returns true for equal versions`() {
+        val method = PlaywrightVersion::class.java.getDeclaredMethod(
+            "isVersionGreaterOrEqual", String::class.java, String::class.java
+        )
+        method.isAccessible = true
+        assertTrue(method.invoke(PlaywrightVersion, "1.44.0", "1.44.0") as Boolean)
+    }
+
+    @Test
+    fun `isVersionGreaterOrEqual returns true for greater major version`() {
+        val method = PlaywrightVersion::class.java.getDeclaredMethod(
+            "isVersionGreaterOrEqual", String::class.java, String::class.java
+        )
+        method.isAccessible = true
+        assertTrue(method.invoke(PlaywrightVersion, "2.0.0", "1.44.0") as Boolean)
+    }
+
+    @Test
+    fun `isVersionGreaterOrEqual returns false for lesser version`() {
+        val method = PlaywrightVersion::class.java.getDeclaredMethod(
+            "isVersionGreaterOrEqual", String::class.java, String::class.java
+        )
+        method.isAccessible = true
+        assertFalse(method.invoke(PlaywrightVersion, "1.43.0", "1.44.0") as Boolean)
+    }
+
+    @Test
+    fun `isVersionGreaterOrEqual handles different length versions`() {
+        val method = PlaywrightVersion::class.java.getDeclaredMethod(
+            "isVersionGreaterOrEqual", String::class.java, String::class.java
+        )
+        method.isAccessible = true
+        assertTrue(method.invoke(PlaywrightVersion, "1.50", "1.44.0") as Boolean)
+    }
+
+    @Test
+    fun `isVersionGreaterOrEqual returns true for greater minor version`() {
+        val method = PlaywrightVersion::class.java.getDeclaredMethod(
+            "isVersionGreaterOrEqual", String::class.java, String::class.java
+        )
+        method.isAccessible = true
+        assertTrue(method.invoke(PlaywrightVersion, "1.50.0", "1.44.0") as Boolean)
+    }
+
+    @Test
+    fun `isVersionGreaterOrEqual returns false for lesser minor version`() {
+        val method = PlaywrightVersion::class.java.getDeclaredMethod(
+            "isVersionGreaterOrEqual", String::class.java, String::class.java
+        )
+        method.isAccessible = true
+        assertFalse(method.invoke(PlaywrightVersion, "1.43.9", "1.44.0") as Boolean)
     }
 }

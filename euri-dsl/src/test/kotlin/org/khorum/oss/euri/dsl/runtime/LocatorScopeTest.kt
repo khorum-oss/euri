@@ -8,6 +8,7 @@ import io.mockk.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import java.nio.file.Path
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
@@ -125,6 +126,35 @@ class LocatorScopeTest {
             scope.process(locator)
             assertEquals(listOf("a", "b"), op.selected)
         }
+
+        @Test
+        fun `dragTo processes on locator`() {
+            val targetLocator = mockk<Locator>(relaxed = true)
+            val targetScope = LocatorScope(mutableListOf())
+            targetScope.process(targetLocator)
+
+            scope.dragTo(targetScope)
+            scope.process(locator)
+
+            verify { locator.dragTo(targetLocator, any<Locator.DragToOptions>()) }
+        }
+
+        @Test
+        fun `setInputFilesByPath processes on locator`() {
+            val paths = listOf(Path.of("/tmp/file1.txt"), Path.of("/tmp/file2.txt"))
+            scope.setInputFilesByPath(paths)
+            scope.process(locator)
+
+            verify { locator.setInputFiles(any<Array<Path>>(), any<Locator.SetInputFilesOptions>()) }
+        }
+
+        @Test
+        fun `setInputFilesByFilename processes on locator`() {
+            scope.setInputFilesByFilename(listOf("file1.txt", "file2.txt"))
+            scope.process(locator)
+
+            verify { locator.setInputFiles(any<Array<Path>>(), any<Locator.SetInputFilesOptions>()) }
+        }
     }
 
     @Nested
@@ -216,6 +246,42 @@ class LocatorScopeTest {
 
             verify { locator.nth(2) }
             verify { nth.click(any<Locator.ClickOptions>()) }
+        }
+
+        @Test
+        fun `and narrows with other resolvedLocator and processes children`() {
+            val otherLocator = mockk<Locator>(relaxed = true)
+            val otherScope = LocatorScope(mutableListOf())
+            otherScope.process(otherLocator)
+
+            val combined = mockk<Locator>(relaxed = true)
+            every { locator.and(otherLocator) } returns combined
+
+            scope.and(otherScope) {
+                click { }
+            }
+            scope.process(locator)
+
+            verify { locator.and(otherLocator) }
+            verify { combined.click(any<Locator.ClickOptions>()) }
+        }
+
+        @Test
+        fun `or narrows with other resolvedLocator and processes children`() {
+            val otherLocator = mockk<Locator>(relaxed = true)
+            val otherScope = LocatorScope(mutableListOf())
+            otherScope.process(otherLocator)
+
+            val combined = mockk<Locator>(relaxed = true)
+            every { locator.or(otherLocator) } returns combined
+
+            scope.or(otherScope) {
+                click { }
+            }
+            scope.process(locator)
+
+            verify { locator.or(otherLocator) }
+            verify { combined.click(any<Locator.ClickOptions>()) }
         }
     }
 

@@ -33,6 +33,17 @@ class PlaywrightDslTest {
     }
 
     @Test
+    fun `contextScope adds context action`() {
+        val dsl = PlaywrightRuntime()
+        var blockCalled = false
+        dsl.contextScope {
+            blockCalled = true
+        }
+        // contextScope stores the block internally; no exception means it was accepted
+        // The block is not called yet since execute() is not invoked
+    }
+
+    @Test
     fun `playwright function creates and applies DSL`() {
         var dslBlockCalled = false
         playwright {

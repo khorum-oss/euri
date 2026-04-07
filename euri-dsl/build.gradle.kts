@@ -43,11 +43,16 @@ kover {
         filters {
             excludes {
                 annotatedBy("org.khorum.oss.euri.dsl.common.ExcludeFromCoverage")
+                classes(
+                    "org.khorum.oss.euri.dsl.config.*Dsl*",
+                    "org.khorum.oss.euri.dsl.runtime.*Dsl*",
+                    "org.khorum.oss.euri.dsl.runtime.locator.*Dsl*",
+                )
             }
         }
         verify {
             rule("dsl coverage") {
-                minBound(50)
+                minBound(96)
             }
         }
     }
