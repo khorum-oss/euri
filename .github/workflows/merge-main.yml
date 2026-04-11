@@ -46,8 +46,8 @@ jobs:
         with:
           java-version: '21'
 
-      - name: Publish dsl module to DigitalOcean Spaces
-        run: ./gradlew :dsl:uploadToDigitalOceanSpaces --no-daemon
+      - name: Publish euri-dsl module to DigitalOcean Spaces
+        run: ./gradlew :euri-dsl:uploadToDigitalOceanSpaces --no-daemon
         env:
           DO_SPACES_API_KEY: ${{ secrets.DO_SPACES_API_KEY }}
           DO_SPACES_SECRET: ${{ secrets.DO_SPACES_SECRET }}
@@ -78,7 +78,7 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: dsl/build/reports/kover/report.xml
+          files: euri-dsl/build/reports/kover/report.xml
           fail_ci_if_error: false
 
       - name: SonarCloud Scan
@@ -126,6 +126,6 @@ jobs:
       workflow_name: ${{ github.workflow }}
       build_result: ${{ needs.publish.result == 'success' && 'success' || 'failure' }}
       version: ${{ needs.publish.outputs.version || '' }}
-      custom_description: Published dsl to open-reliquary
+      custom_description: Published euri-dsl to open-reliquary
     secrets:
       DISCORD_WEBHOOK_URL: ${{ secrets.PUBLIC_RELEASE_DISCORD_WEBHOOK }}

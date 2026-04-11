@@ -12,8 +12,8 @@ pluginManagement {
 
 includeModules(
     "core-test",
-    "dsl",
-    "playwright"
+    "euri-dsl",
+    "theatre"
 )
 
 class Module(private val moduleName: String) {
