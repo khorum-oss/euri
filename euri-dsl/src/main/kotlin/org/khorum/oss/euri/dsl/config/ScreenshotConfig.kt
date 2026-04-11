@@ -2,8 +2,10 @@ package org.khorum.oss.euri.dsl.config
 
 import com.microsoft.playwright.Page
 import org.khorum.oss.euri.dsl.common.toPath
+import org.khorum.oss.euri.dsl.enums.ScreenshotType
 import org.khorum.oss.konstellation.metaDsl.annotation.GeneratedDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.ListDsl
+import org.khorum.oss.konstellation.metaDsl.annotation.defaults.DefaultEnum
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.DefaultValue
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultEmptyList
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultFalse
@@ -12,7 +14,12 @@ import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.N
 
 @GeneratedDsl
 data class ScreenshotConfig(
-    @DefaultValue("PNG") val type: String = "PNG",
+    @DefaultEnum(
+        value = "Png",
+        packageName = "org.khorum.oss.euri.dsl.enums",
+        className = "ScreenshotType"
+    )
+    val type: ScreenshotType = ScreenshotType.Png,
     @DefaultValue("-1") val quality: Int = -1,
     val path: String? = null,
     val style: String? = null,
@@ -25,6 +32,7 @@ data class ScreenshotConfig(
     val clip: ClipConfig? = null,
 ) : PlaywrightConfig<Page.ScreenshotOptions> {
     override fun toPlaywright(): Page.ScreenshotOptions = Page.ScreenshotOptions().also { options ->
+        options.setType(type.toPlaywright())
         options.setPath(path?.toPath())
         options.setFullPage(fullPage)
         options.setOmitBackground(omitBackground)

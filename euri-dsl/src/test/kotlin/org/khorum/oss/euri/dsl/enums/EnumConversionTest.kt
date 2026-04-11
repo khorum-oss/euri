@@ -4,7 +4,9 @@ import com.microsoft.playwright.options.ColorScheme
 import com.microsoft.playwright.options.LoadState
 import com.microsoft.playwright.options.WaitUntilState
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
+import com.microsoft.playwright.options.ScreenshotType as PlaywrightScreenshotType
 
 class EnumConversionTest {
 
@@ -68,11 +70,11 @@ class EnumConversionTest {
 
     @Test
     fun `ScreenshotType Png toPlaywright`() {
-        assertEquals("png", ScreenshotType.Png.toPlaywright())
+        assertEquals(PlaywrightScreenshotType.PNG, ScreenshotType.Png.toPlaywright())
     }
 
     @Test
     fun `ScreenshotType Jpeg toPlaywright`() {
-        assertEquals("jpeg", ScreenshotType.Jpeg.toPlaywright())
+        assertEquals(PlaywrightScreenshotType.JPEG, ScreenshotType.Jpeg.toPlaywright())
     }
 }

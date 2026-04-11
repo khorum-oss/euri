@@ -79,16 +79,15 @@ class BrowserContextScopeTest {
         verify { context.setOffline(true) }
     }
 
-    // Commented out — newPage is part of the PageScope refactor (currently commented out in BrowserContextScope)
-//    @Test
-//    fun `newPage creates page and applies block`() {
-//        val page = mockk<Page>(relaxed = true)
-//        every { context.newPage() } returns page
-//        var blockCalled = false
-//        scope.newPage { blockCalled = true }
-//        assertTrue(blockCalled)
-//        verify { context.newPage() }
-//    }
+    @Test
+    fun `newPage creates page and applies block`() {
+        val page = mockk<Page>(relaxed = true)
+        every { context.newPage() } returns page
+        var blockCalled = false
+        scope.newPage { blockCalled = true }
+        kotlin.test.assertTrue(blockCalled)
+        verify { context.newPage() }
+    }
 
     @Test
     fun `pages delegates to context`() {

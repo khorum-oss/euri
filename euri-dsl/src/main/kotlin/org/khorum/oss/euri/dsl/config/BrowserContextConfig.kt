@@ -1,12 +1,13 @@
 package org.khorum.oss.euri.dsl.config
 
 import com.microsoft.playwright.Browser
-import com.microsoft.playwright.options.ColorScheme
 import org.khorum.oss.euri.dsl.common.toPath
+import org.khorum.oss.euri.dsl.enums.BrowserColorScheme
 import org.khorum.oss.konstellation.metaDsl.annotation.GeneratedDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.ListDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.MapDsl
 import org.khorum.oss.konstellation.metaDsl.annotation.RootDsl
+import org.khorum.oss.konstellation.metaDsl.annotation.defaults.DefaultEnum
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.DefaultValue
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultEmptyMap
 import org.khorum.oss.konstellation.metaDsl.annotation.defaults.state.standard.DefaultFalse
@@ -59,8 +60,12 @@ data class BrowserContextConfig(
     @DefaultFalse(negationFunctionName = "online")             val offline: Boolean = false,
     @DefaultFalse(negationFunctionName = "nonStrictSelectors") val strictSelectors: Boolean = false,
 
-    @DefaultValue("NO_PREFERENCE")
-    val colorScheme: String = "NO_PREFERENCE",
+    @DefaultEnum(
+        value = "NoPreference",
+        packageName = "org.khorum.oss.euri.dsl.enums",
+        className = "BrowserColorScheme"
+    )
+    val colorScheme: BrowserColorScheme = BrowserColorScheme.NoPreference,
 
     val baseUrl: String? = null,
     val locale: String? = null,
@@ -85,7 +90,7 @@ data class BrowserContextConfig(
         options.setAcceptDownloads(acceptDownloads)
         options.setBaseURL(baseUrl)
         options.setBypassCSP(bypassCsp)
-        options.setColorScheme(ColorScheme.valueOf(colorScheme))
+        options.setColorScheme(colorScheme.toPlaywright())
         options.setDeviceScaleFactor(deviceScaleFactor)
         options.setExtraHTTPHeaders(extraHttpHeaders)
         options.setHasTouch(hasTouch)

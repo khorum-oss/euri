@@ -3,6 +3,7 @@ package org.khorum.oss.euri.dsl.generated
 import org.junit.jupiter.api.Test
 import org.khorum.oss.euri.dsl.browserContextConfig
 import org.khorum.oss.euri.dsl.config.BrowserContextConfig
+import org.khorum.oss.euri.dsl.enums.BrowserColorScheme
 import org.khorum.oss.euri.dsl.config.GeolocationConfig
 import org.khorum.oss.euri.dsl.config.HttpCredentialsConfig
 import org.khorum.oss.euri.dsl.config.ProxyConfig
@@ -22,7 +23,7 @@ class BrowserContextConfigTest {
             acceptDownloads = true,
             baseUrl = null,
             bypassCsp = false,
-            colorScheme = "NO_PREFERENCE",
+            colorScheme = BrowserColorScheme.NoPreference,
             deviceScaleFactor = 1.0,
             extraHttpHeaders = emptyMap(),
             hasTouch = false,
@@ -57,7 +58,7 @@ class BrowserContextConfigTest {
             acceptDownloads()
             baseUrl = "http://localhost:8080"
             bypassCsp()
-            colorScheme = "Synthwave"
+            colorScheme = BrowserColorScheme.Dark
             deviceScaleFactor = 2.0
             extraHttpHeaders(
                 "X-Custom" to "first",
@@ -111,7 +112,7 @@ class BrowserContextConfigTest {
             acceptDownloads = true,
             baseUrl = "http://localhost:8080",
             bypassCsp = true,
-            colorScheme = "Synthwave",
+            colorScheme = BrowserColorScheme.Dark,
             deviceScaleFactor = 2.0,
             extraHttpHeaders = mapOf("X-Custom" to "first", "X-Addition" to "second"),
             hasTouch =  true,

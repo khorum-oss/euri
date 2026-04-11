@@ -36,7 +36,8 @@ class PlaywrightRuntime(
 
     @TransientDsl
     private var contextActions: MutableList<BrowserContextScope.() -> Unit> = mutableListOf()
-//    private var pageActions: MutableList<PageScope.() -> Unit> = mutableListOf()
+    @TransientDsl
+    private var pageActions: MutableList<PageScope.() -> Unit> = mutableListOf()
 
     fun chromium() {
         browserTypeName = BrowserType.CHROMIUM
@@ -53,41 +54,41 @@ class PlaywrightRuntime(
     fun contextScope(block: BrowserContextScope.() -> Unit) {
         contextActions.add(block)
     }
-//
-//    fun page(block: PageScope.() -> Unit) {
-//        pageActions.add(block)
-//    }
-//
-//    @Suppress("CyclomaticComplexMethod", "NestedBlockDepth")
-//    internal fun execute() {
-//        val pw = Playwright.create()
-//        pw.use { pw ->
-//            val browserType: PlaywrightBrowserType = when (browserTypeName) {
-//                BrowserType.CHROMIUM -> pw.chromium()
-//                BrowserType.FIREFOX -> pw.firefox()
-//                BrowserType.WEBKIT -> pw.webkit()
-//            }
-//
-//            val launchOpts = launch?.toPlaywright()
-//            val browser: Browser = browserType.launch(launchOpts)
-//            browser.use { browser ->
-//                val contextOpts = context?.toPlaywright()
-//                val context: BrowserContext = browser.newContext(contextOpts)
-//                context.use { context ->
-//                    contextActions.forEach { action ->
-//                        BrowserContextScope(context).apply(action)
-//                    }
-//
-//                    if (pageActions.isNotEmpty()) {
-//                        val page = context.newPage()
-//                        pageActions.forEach { action ->
-//                            PageScope(page).apply(action)
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
+
+    fun page(block: PageScope.() -> Unit) {
+        pageActions.add(block)
+    }
+
+    @Suppress("CyclomaticComplexMethod", "NestedBlockDepth")
+    internal fun execute() {
+        val pw = Playwright.create()
+        pw.use { pw ->
+            val browserType: PlaywrightBrowserType = when (browserTypeName) {
+                BrowserType.CHROMIUM -> pw.chromium()
+                BrowserType.FIREFOX -> pw.firefox()
+                BrowserType.WEBKIT -> pw.webkit()
+            }
+
+            val launchOpts = launch?.toPlaywright()
+            val browser: Browser = browserType.launch(launchOpts)
+            browser.use { browser ->
+                val contextOpts = context?.toPlaywright()
+                val context: BrowserContext = browser.newContext(contextOpts)
+                context.use { context ->
+                    contextActions.forEach { action ->
+                        BrowserContextScope(context).apply(action)
+                    }
+
+                    if (pageActions.isNotEmpty()) {
+                        val page = context.newPage()
+                        pageActions.forEach { action ->
+                            PageScope(page).apply(action)
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 /**
@@ -96,5 +97,5 @@ class PlaywrightRuntime(
 fun playwright(block: PlaywrightRuntime.() -> Unit) {
     val dsl = PlaywrightRuntime()
     dsl.apply(block)
-//    dsl.execute()
+    dsl.execute()
 }

@@ -5,7 +5,9 @@
     <ID>LongParameterList:ClickOperation.kt$ClickOperation$( var button: MouseButton = MouseButton.LEFT, @DefaultValue("1") val clickCount: Int = 1, @DefaultZeroDouble val delay: Double = 0.0, @DefaultFalse(negationTemplate = DO_NOT) val force: Boolean = false, @ListDsl private val modifiers: List&lt;KeyboardModifier>? = null, private val position: PlaywrightPosition? = null, @DefaultValue("30000.0") val timeout: Double = 30000.0, @DefaultFalse val trial: Boolean = false )</ID>
     <ID>LongParameterList:DoubleClickOperation.kt$DoubleClickOperation$( var button: MouseButton = MouseButton.LEFT, @DefaultValue("0.0") val delay: Double = 0.0, @DefaultFalse(negationTemplate = DO_NOT) val force: Boolean = false, @ListDsl private val modifiers: List&lt;KeyboardModifier>? = null, private val position: PlaywrightPosition? = null, @DefaultValue("30000.0") val timeout: Double = 30000.0, @DefaultFalse val trial: Boolean = false )</ID>
     <ID>LongParameterList:GetByRoleOperation.kt$GetByRoleOperation$( val checked: Boolean? = null, val disabled: Boolean? = null, val exact: Boolean? = null, val expanded: Boolean? = null, val includeHidden: Boolean? = null, val level: Int? = null, val name: String? = null, val pressed: Boolean? = null, val selected: Boolean? = null )</ID>
+    <ID>LongParameterList:FrameScope.kt$FrameScope$( role: Role, checked: Boolean? = null, disabled: Boolean? = null, exact: Boolean? = null, expanded: Boolean? = null, includeHidden: Boolean? = null, level: Int? = null, name: String? = null, pressed: Boolean? = null, selected: Boolean? = null, block: LocatorScope.() -> Unit = {} )</ID>
     <ID>LongParameterList:LocatorScope.kt$LocatorScope$( role: AriaRole, checked: Boolean? = null, disabled: Boolean? = null, exact: Boolean? = null, expanded: Boolean? = null, includeHidden: Boolean? = null, level: Int? = null, name: String? = null, pressed: Boolean? = null, selected: Boolean? = null, block: LocatorScope.() -> Unit = {} )</ID>
+    <ID>LongParameterList:PageScope.kt$PageScope$( role: Role, checked: Boolean? = null, disabled: Boolean? = null, exact: Boolean? = null, expanded: Boolean? = null, includeHidden: Boolean? = null, level: Int? = null, name: String? = null, pressed: Boolean? = null, selected: Boolean? = null, block: LocatorScope.() -> Unit = {} )</ID>
     <ID>NewLineAtEndOfFile:BlurOperation.kt$org.khorum.oss.euri.dsl.runtime.locator.BlurOperation.kt</ID>
     <ID>NewLineAtEndOfFile:BrowserType.kt$org.khorum.oss.euri.dsl.runtime.BrowserType.kt</ID>
     <ID>NewLineAtEndOfFile:CheckableOperation.kt$org.khorum.oss.euri.dsl.runtime.locator.CheckableOperation.kt</ID>
@@ -25,7 +27,9 @@
     <ID>ReturnCount:PlaywrightVersion.kt$PlaywrightVersion$fun checkCompatibility(): CompatibilityResult</ID>
     <ID>ReturnCount:PlaywrightVersion.kt$PlaywrightVersion$private fun isVersionGreaterOrEqual(actual: String, minimum: String): Boolean</ID>
     <ID>TooManyFunctions:BrowserContextScope.kt$BrowserContextScope</ID>
+    <ID>TooManyFunctions:FrameScope.kt$FrameScope</ID>
     <ID>TooManyFunctions:LocatorScope.kt$LocatorScope : LocatorOperation</ID>
+    <ID>TooManyFunctions:PageScope.kt$PageScope</ID>
     <ID>UnusedPrivateProperty:PlaywrightRuntime.kt$PlaywrightRuntime$private var context: BrowserContextConfig? = null</ID>
     <ID>UnusedPrivateProperty:PlaywrightRuntime.kt$PlaywrightRuntime$private var launch: BrowserLaunchConfig? = null</ID>
   </CurrentIssues>

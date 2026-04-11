@@ -42,11 +42,11 @@ class BrowserContextScope(private val context: BrowserContext) {
     @InjectDslMethod
     fun setOffline(offline: Boolean) = context.setOffline(offline)
 
-//    @InjectDslMethod
-//    fun newPage(block: PageScope.() -> Unit) {
-//        val page = context.newPage()
-//        PageScope(page).apply(block)
-//    }
+    @InjectDslMethod
+    fun newPage(block: PageScope.() -> Unit) {
+        val page = context.newPage()
+        PageScope(page).apply(block)
+    }
 
     @InjectDslMethod
     fun pages(): List<Page> = context.pages()

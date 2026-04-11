@@ -246,19 +246,19 @@ class ConfigMappersTest {
 
     @Test
     fun `BrowserContextConfig toPlaywright with colorScheme DARK`() {
-        val config = BrowserContextConfig(colorScheme = BrowserColorScheme.Dark.playwrightValue)
+        val config = BrowserContextConfig(colorScheme = BrowserColorScheme.Dark)
         config.toPlaywright()
     }
 
     @Test
     fun `BrowserContextConfig toPlaywright with colorScheme LIGHT`() {
-        val config = BrowserContextConfig(colorScheme = BrowserColorScheme.Light.playwrightValue)
+        val config = BrowserContextConfig(colorScheme = BrowserColorScheme.Light)
         config.toPlaywright()
     }
 
     @Test
     fun `BrowserContextConfig toPlaywright with colorScheme NO_PREFERENCE skips setting`() {
-        val config = BrowserContextConfig(colorScheme = BrowserColorScheme.NoPreference.playwrightValue)
+        val config = BrowserContextConfig(colorScheme = BrowserColorScheme.NoPreference)
         config.toPlaywright()
         // NO_PREFERENCE is the default and should not be set
     }
@@ -392,7 +392,7 @@ class ConfigMappersTest {
             acceptDownloads = false,
             baseUrl = "https://example.com",
             bypassCsp = true,
-            colorScheme = BrowserColorScheme.Dark.playwrightValue,
+            colorScheme = BrowserColorScheme.Dark,
             deviceScaleFactor = 2.0,
             extraHttpHeaders = mapOf("X-Custom" to "value"),
             hasTouch = true,
@@ -440,7 +440,7 @@ class ConfigMappersTest {
     fun `NavigationConfig toNavigateOptions with custom waitUntil`() {
         val config = NavigationConfig(
             url = "https://example.com",
-            waitUntil = WaitUntil.DomContentLoaded.playwrightValue
+            waitUntil = WaitUntil.DomContentLoaded
         )
         config.toPlaywright()
     }
@@ -449,7 +449,7 @@ class ConfigMappersTest {
     fun `NavigationConfig toNavigateOptions with NETWORKIDLE`() {
         val config = NavigationConfig(
             url = "https://example.com",
-            waitUntil = WaitUntil.NetworkIdle.playwrightValue
+            waitUntil = WaitUntil.NetworkIdle
         )
         config.toPlaywright()
     }
@@ -458,7 +458,7 @@ class ConfigMappersTest {
     fun `NavigationConfig toNavigateOptions with COMMIT`() {
         val config = NavigationConfig(
             url = "https://example.com",
-            waitUntil = WaitUntil.Commit.playwrightValue
+            waitUntil = WaitUntil.Commit
         )
         config.toPlaywright()
     }
@@ -476,7 +476,7 @@ class ConfigMappersTest {
     fun `NavigationConfig toNavigateOptions with all fields`() {
         val config = NavigationConfig(
             url = "https://example.com",
-            waitUntil = WaitUntil.DomContentLoaded.playwrightValue,
+            waitUntil = WaitUntil.DomContentLoaded,
             timeout = 5000.0,
             referer = "https://google.com"
         )
@@ -539,7 +539,7 @@ class ConfigMappersTest {
     fun `ScreenshotConfig toPlaywright with all fields`() {
         val config = ScreenshotConfig(
             path = "/tmp/screenshot.png",
-            type = ScreenshotType.Jpeg.playwrightValue,
+            type = ScreenshotType.Jpeg,
             quality = 90,
             fullPage = true,
             clip = ClipConfig(x = 10.0, y = 20.0, width = 300.0, height = 200.0),

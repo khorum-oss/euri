@@ -44,6 +44,17 @@ class PlaywrightDslTest {
     }
 
     @Test
+    fun `page adds page action`() {
+        val dsl = PlaywrightRuntime()
+        var blockCalled = false
+        dsl.page {
+            blockCalled = true
+        }
+        // page stores the block internally; no exception means it was accepted
+        // The block is not called yet since execute() is not invoked
+    }
+
+    @Test
     fun `playwright function creates and applies DSL`() {
         var dslBlockCalled = false
         playwright {
